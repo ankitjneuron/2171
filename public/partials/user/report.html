@@ -1,0 +1,110 @@
+<body>
+    <div class="commondashboard_side userdashboard_side">
+        <div ui-view="@left"></div>
+        <main class="side-collapse-container">
+            <div class="main-container">
+                <div ui-view="@subheader"></div>
+                <div class="content">
+                    <div class="mobile_dashboard_heading01">
+                        <h3 class="visible-xs business_name" ng-if="myBusinessInfo !== undefined && myBusinessInfo !== ''">{{myBusinessInfo.business_name}}</h3>
+                        <h3>Appointment Reports</h3>
+                    </div>
+                    <div class="report_section_page">                     
+                        <div class="panel panel-default">
+                            <!--  <div class="panel-heading"><h2 class="panel-title">Filter</h2></div>-->
+                            <div class="filterdiv">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>Patient Name</label>
+                                                <div ng-dropdown-multiselect="" events="usersEvent"  options="patientData"  translation-texts="usersText" extra-settings="multiSelectSettings" selected-model="patient"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 daterange">  
+                                            <div class="form-group">
+                                                <label>Date Range</label>
+                                                <div class="row">
+                                                    <div class="col-sm-5 p-r-sm-0">    
+                                                        <!--    <input type="text" class="form-control inputcal-icon" placeholder="From">-->
+                                                        <div class="date-picker">
+                                                            <div class="input-group m-b-0">
+                                                                <input type="text" placeholder="From" readonly="true" class="form-control" datepicker-popup="{{format}}" ng-change="selectFromDate(fromDate)" ng-model="fromDate" is-open="fromOpened" min-date="fromMinDate" max-date="fromMaxDate"   datepicker-options="dateOptions" date-disabled="disabled(date, mode)" id="fromDate" ng-required="true" close-text="Close" show-button-bar="false"/>
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-primary" ng-click="fromOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                                </span> </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-2 text-center to">TO</div>
+                                                    <div class="col-sm-5 p-l-sm-0">
+                                                        <!--    <input type="text" class="form-control inputcal-icon" placeholder="To">-->
+                                                        <div class="date-picker">
+                                                            <div class="input-group m-b-0">
+                                                                <input type="text" placeholder="To" readonly="true" class="form-control" datepicker-popup="{{format}}" ng-change="selectToDate(toDate)" ng-model="toDate" is-open="toOpened" min-date="toMinDate" max-date="toMaxDate"   datepicker-options="dateOptions" date-disabled="disabled(date, mode)" id="toDate" ng-required="true" close-text="Close" show-button-bar="false"/>
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-primary" ng-click="toOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                                </span> </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>    
+                                            </div></div>  
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>Status</label>
+                                                <div ng-dropdown-multiselect="" events="statusEvents"  translation-texts="statusText" options="statusData" selected-model="status" extra-settings="statusSettings"></div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="hidden-xs">&nbsp;</label>
+                                                <button type="button" class="btn btn-danger btn-block" ng-click="getAppointmentReportList()"><span class="glyphicon glyphicon-search"></span> Search</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="table-responsive admintable icon_img">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:200px">Patient Name</th>
+                                                    <th style="width:300px">Reason</th>
+                                                    <th style="width:200px">Gender</th>
+                                                    <th style="width:250px">Date</th>
+                                                    <th style="width:60px">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-show="reportListLoader"><td colspan="5"><div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>     
+                                                <tr ng-repeat="(index,data) in reportData">
+                                                    <td>{{data.user_id.first_name + " " + data.user_id.last_name}}</td>
+                                                    <td>{{data.appointment_reason}}</td>
+                                                    <td ng-if="data.gender !== undefined && data.gender !== ''">{{data.gender}}</td>
+                                                    <td ng-if="data.gender === undefined || data.gender === ''">-</td>
+                                                    <td>{{getDate(data.appointment_date)}}</td>
+                                                    <td>{{data.appointment_status}}</td>
+                                                </tr>
+                                                <tr ng-show="noReportListFound"><td colspan="5"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr> 
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="adminpagination text-right col-lg-12" ng-show="reportListPagination">
+                                        <pagination total-items="reportListTotalItems" ng-click="getAppointmentReportList()" ng-model="reportCurrentPage" max-size="reportListMaxSize" class="pagination" boundary-links="true"></pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>

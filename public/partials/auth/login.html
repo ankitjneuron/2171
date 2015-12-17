@@ -1,0 +1,47 @@
+<main class="main-content innerpages">
+    <div class="container">  
+        <div class="loginsignup-page login-page">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 leftsection"></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 rightsection"> 
+
+                   <img class="img-responsive center-block logo" src="images/baya_logo.png">   
+                    <div class="clearfix"></div>   
+                    <h2>Sign In to Your Business Account</h2>
+                    <form name="form" novalidate>
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="loginFrom.email" name="email" required="" placeholder="Email" ng-pattern="/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/">
+                            <div ng-show="form.$submitted || form.email.$touched">
+                                <span class="text-danger" ng-show="form.email.$error.required">Email is required.</span>
+                                <span class="text-danger" ng-show="form.email.$error.pattern">This is not a valid email.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" ng-model="loginFrom.password" name="password" required="" ng-minlength="6" ng-maxlength="15" placeholder="Password">
+                            <div ng-show="form.$submitted || form.password.$touched">
+                                <div  class="text-danger" ng-show="form.password.$error.required">Password is required.</div>
+                                <span class="text-danger" ng-show="form.password.$error.minlength">Password is too short.</span>
+                                <span class="text-danger" ng-show="form.password.$error.maxlength">Password is too long.</span>   
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" ng-click="login()" ng-disabled="disableLoginSbmtBtn" value="Save"  class="btn btn-danger">Login<i ng-show="loader" class="fa fa-spinner fa-spin"></i></button>
+                            <a ui-sref="root.forgotpassword" class="pull-right">Forgot Password</a>
+                        </div>
+                    </form>
+                    <div class="sign_bottom">
+                        <h4>New Business? <a ui-sref="root.signup"  class="link-purple">CREATE ACCOUNT</a></h4>
+                    </div>    
+                </div>      
+
+            </div>
+        </div>
+
+
+    </div>
+</main>
+<script>
+   $("html, body").animate({ scrollTop: 0 }, "slow");
+   $(".headerChk").removeClass('navbar-fixed-top');
+</script>
+

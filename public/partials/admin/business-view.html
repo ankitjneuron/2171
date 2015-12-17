@@ -1,0 +1,76 @@
+<div class="commondashboard_side">
+<div ui-view="@left"></div>
+<main class="side-collapse-container">
+     <div class="main-container">
+     <div ui-view="@subheader"></div> 
+    <div class="mobile_dashboard_heading">
+         <h3>Business View</h3>
+       </div>
+    
+    <div class="content" ng-hide="pageDetail">
+         <div class="business_page">
+        <div class="well well-sm">
+           <div class="myform">
+            <form class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-sm-3 col-lg-2 control-label">Business Name <span>:</span></label>
+                  <div class="col-sm-9 col-lg-10">
+                  <p class="form-control-static">{{pageData.business_name}}</p>
+                  </div>
+               </div>
+                <div class="form-group">
+                  <label class="col-sm-3 col-lg-2 control-label">Business Category <span>:</span></label>
+                  <div class="col-sm-9 col-lg-10">
+                  <p class="form-control-static">{{getBusinessCategory(pageData.business_category)}}</p>
+                  </div>
+               </div>
+                <div class="form-group">
+                  <label class="col-sm-3 col-lg-2 control-label">Neighbour <span>:</span></label>
+                  <div class="col-sm-9 col-lg-10">
+                  <p class="form-control-static">{{pageData.neighbour}}</p>
+                  </div>
+               </div>
+                <div class="form-group">
+                  <label class="col-sm-3 col-lg-2 control-label">Phone <span>:</span></label>
+                  <div class="col-sm-9 col-lg-10">
+                  <p class="form-control-static">{{pageData.phone_number}}</p>
+                  </div>
+               </div>
+                <div class="form-group">
+                  <label class="col-sm-3 col-lg-2 control-label">Address <span>:</span></label>
+                  <div class="col-sm-9 col-lg-10">
+                  <p class="form-control-static">{{pageData.address}} </p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 col-lg-2 control-label">State <span>:</span></label>
+                  <div class="col-sm-9 col-lg-10">
+                  <p class="form-control-static">{{pageData.state.state_name}}</p>
+                  </div>
+               </div>
+                <div class="form-group">
+                  <label class="col-sm-3 col-lg-2 control-label">City <span>:</span></label>
+                  <div class="col-sm-9 col-lg-10">
+                  <p class="form-control-static">{{pageData.city}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 col-lg-2 control-label">Zipcode <span>:</span></label>
+                  <div class="col-sm-9 col-lg-10">
+                  <p class="form-control-static">{{pageData.zipcode}}</p>
+                  </div>
+               </div>
+            </form>
+             </div>  
+           </div>
+          <div class="back_edit clearfix"> 
+          <a href="#/admin/update-listing/{{pageData._id}}" class="btn btn-danger">Edit</a>&nbsp;
+        <a href="javascript:void(0);" ui-sref="admin.businesspages" class="btn btn-primary">Back</a> 
+        </div>
+      </div>
+       </div>
+     <div class="alert alert-danger text-center" ng-show="pageError"> Page Not Found !</div> 
+  </div>
+   </main>
+   </div>
+ 

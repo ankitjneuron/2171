@@ -1,0 +1,143 @@
+<div class="commondashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>    
+            <div class="mobile_dashboard_heading">
+                <h3>Manage Listings</h3>
+            </div>
+            <div class="content">
+                <div class="managelisting_page">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="searchuser"> <a ui-sref="admin.addlisting" class="btn btn-primary pull-left">Add Listing</a>
+                                <div class="custom-search-input">
+                                    <form>
+                                        <div class="input-group">
+                                            <input type="text" class="search-query form-control" placeholder="Search" ng-model="searchValue">
+                                            <button class="btn btn-danger" ng-click="searchList()" type="button"> <span class=" glyphicon glyphicon-search"></span> </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li id="listingVerified" role="presentation" class="active"><a href="verified" aria-controls="verified" ng-click="tabChange('verified');
+                                    getVerifiedListing()" role="tab" data-toggle="tab">Verified</a></li>
+                                <li id="listingNonVerified" role="presentation"><a href="nonverified" aria-controls="nonverified" ng-click="tabChange('nonverified');
+                                    getNonVerifiedListing()" role="tab" data-toggle="tab">Nonverified</a></li>
+                            </ul>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="verified">
+                                            <div class="row">
+                                                <div class="table-responsive admintable">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:130px">Date</th>
+                                                                <th style="width:130px">Business Name</th>
+                                                                <th style="width:250px">Business Category</th>
+                                                                <th style="width:200px">Assigned to</th>
+                                                                <th style="width:100px">Status</th>
+                                                                <th style="width:100px">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-show="verifiedListLoader"><td colspan="6"><div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>
+                                                            <tr ng-repeat="(index,verifyList) in verifiedListData">
+                                                                <td>{{getDate(verifyList.updated_at)}}</td>
+                                                                <td>{{verifyList.business_name}}</td>
+                                                                <td>{{getBusinessCategory(verifyList.business_category)}}</td> 
+                                                                <td ng-if="verifyList.owner_id === undefined || verifyList.owner_id === ''">-</td>
+                                                                <td ng-if="verifyList.owner_id !== undefined && verifyList.owner_id !== ''">{{verifyList.owner_id.first_name + ' ' + verifyList.owner_id.last_name}}</td>
+                                                                <td> <switch id="enabled" name="enabled" ng-model="enabled" on="On" ng-change="changeListingStatus(enabled, verifyList._id)" ng-init="(verifyList.status==='active') ? enabled=true : enabled = false" off="Off" class="green"></switch></td>
+                                                                <td><ul class="list-inline editviewdel">
+                                                                        <!--<li><a href="javascript:void(0);"><i class="fa fa-eye"></i></a></li>-->
+                                                                        <li><a href="javascript:void(0)" ng-click="loadEditPage('verified', verifyList._id)"><i class="fa fa-edit"></i></a></li>
+                                                                        <!--                                    <li><a href="javascript:void(0);" ng-click="deleteListing(verifyList._id,'verified',index)"><i class="fa fa-trash"></i></a></li>-->
+<!--                                                                        <li><a title="" data-placement="right" data-toggle="tooltip" href="javascript:void(0);" data-original-title="Reject" ng-click="cancelListing(index,verifyList._id)"><i class="fa fa-times"></i></a> </li>-->
+                                                                    </ul></td>
+                                                            </tr>
+                                                            <tr ng-show="noVerifyListFound"><td colspan="6"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr> 
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="adminpagination text-right col-lg-12" ng-show="verifyListPagination">
+                                                    <pagination total-items="verifyListTotalItems" ng-click="getVerifiedListing()" ng-model="verifiedlistCurrentPage" max-size="verifyListMaxSize" class="pagination" boundary-links="true"></pagination>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="nonverified">                                         
+                                            <div class="form-horizontal">
+                                                <div class="form-group m-t-10">
+                                                    <label class="col-lg-1 col-sm-2 control-label">Status</label>
+                                                    <div class="col-lg-3 col-sm-4">
+                                                        <div ng-dropdown-multiselect="" events="statusEvents"  translation-texts="statusText" options="statusData" selected-model="status" extra-settings="statusSettings"></div>
+                                                    </div>
+                                                </div>
+                                            </div>                                           
+                                            <div class="row">
+                                                <div class="table-responsive admintable">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:130px">Date</th>
+                                                                <th style="width:130px">Business Name</th>
+                                                                <th style="width:250px">Business Category</th> 
+                                                                <th style="width:100px">Claim Status</th>
+                                                                <th style="width:100px">Status</th>
+                                                                <th style="width:100px">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-show="nonVerifiedListLoader"><td colspan="6"><div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>
+                                                            <tr ng-repeat="(index,nonVerifyList) in nonVerifiedListData">
+                                                                <td>{{getDate(nonVerifyList.updated_at)}}</td>
+                                                                <td>{{nonVerifyList.business_name}}</td>
+                                                                <td>{{getBusinessCategory(nonVerifyList.business_category)}}</td> 
+                                                                <td ng-if="getClaimedCount(nonVerifyList.business_claim) >= 1">
+                                                                    <a ui-sref="admin.claimlisting({id:'{{nonVerifyList._id}}'})" class="link-gray">
+                                                                        <!--                                                                        Claimed ({{getClaimedCount(nonVerifyList.business_claim)}})-->
+                                                                        <!--                                                                        {{(getClaimedCount(nonVerifyList.business_claim)>=1) ? "Request Pending" : "Waiting for Claim"}}-->
+                                                                        Request Pending
+                                                                    </a>
+                                                                </td>
+                                                                <td ng-if="getClaimedCount(nonVerifyList.business_claim) == 0">
+                                                                    Waiting for Claim
+                                                                </td>
+                                                                <td> <switch id="enabled" name="enabled" ng-model="enabled" on="On" ng-change="changeListingStatus(enabled, nonVerifyList._id)" ng-init="(nonVerifyList.status==='active') ? enabled=true : enabled = false" off="Off" class="green"></switch></td>    
+                                                                <td><ul class="list-inline editviewdel">
+                                                                        <!--<li><a href="javascript:void(0);"><i class="fa fa-eye"></i></a></li>-->
+                                                                        <li><a href="javascript:void(0);" ng-click="loadEditPage('nonverified', nonVerifyList._id)"><i class="fa fa-edit"></i></a></li>
+                                                                        <!--                                    <li><a href="javascript:void(0);" ng-click="deleteListing(nonVerifyList._id,'nonverified',index)"><i class="fa fa-trash"></i></a></li>-->
+                                                                    </ul></td>
+                                                            </tr>
+                                                            <tr ng-show="noNonVerifyListFound"><td colspan="6"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr>  
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="adminpagination text-right col-lg-12" ng-show="nonVerifyListPagination">
+                                                    <!--                             <ul class="pagination">
+                                                                                <li> <a aria-label="Previous" href="#"> <span aria-hidden="true">Â«</span> </a> </li>
+                                                                                <li class="active"><a href="#">1</a></li>
+                                                                                <li><a href="#">2</a></li>
+                                                                                <li><a href="#">3</a></li>
+                                                                                <li><a href="#">4</a></li>
+                                                                                <li><a href="#">5</a></li>
+                                                                                <li> <a aria-label="Next" href="#"> <span aria-hidden="true">Â»</span> </a> </li>
+                                                                              </ul>-->
+                                                    <pagination total-items="nonVerifyListTotalItems" ng-click="getNonVerifiedListing()" ng-model="nonVerifiedlistCurrentPage" max-size="nonVerifyListMaxSize" class="pagination" boundary-links="true"></pagination>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

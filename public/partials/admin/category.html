@@ -1,0 +1,77 @@
+ 
+<div class="commondashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>       
+            <div class="mobile_dashboard_heading"><h3>Manage Categories</h3></div>
+            <div class="content">
+                <div class="managecategories_page">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="searchuser">
+                                <a class="btn btn-primary pull-left" ui-sref="admin.addcategory">Add Category</a>
+                                <div class="custom-search-input">
+                                    <form>
+                                        <div class="input-group">
+                                            <input type="text" class="search-query form-control" ng-model="searchCategory" placeholder="Search">
+                                            <button class="btn btn-danger" ng-click="categoryList()" type="button"> <span class=" glyphicon glyphicon-search"></span> </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="table-responsive admintable icon_img" id="categoryIcon">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:50px">Date</th>
+                                                        <th style="width:130px">Category Icon</th>
+                                                        <th style="width:200px">Category Name</th>
+                                                        <th style="width:100px">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-show="categoryListLoader"><td colspan="4"><div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>
+                                                <tr ng-repeat="(index,category) in catagoryData">
+                                                    <td>{{getDate(category.updated_at)}}</td>
+                                                    <td ng-if="category.category_icon === undefined || category.category_icon === ''"><img class="img-responsive" ng-src="{{category_icon_path}}"></td>
+                                                    <td ng-if="category.category_icon !== undefined && category.category_icon !== ''"><img class="img-responsive" ng-src="{{'uploads/category/'+category.category_icon}}"></td>
+<!--                                                    <td ng-if="category.category_icon === 'defult_icon.png'"><img class="img-responsive" src="images/defult_icon.png"></td>-->
+                                                    <td>{{category.category_name}}</td>
+                                                    <td><ul class="list-inline editviewdel">
+                                                            <li><a href="editcategory.php" ui-sref="admin.editcategory({id:'{{category._id}}'})"><i class="fa fa-edit"></i></a></li>
+<!--                                                            <li><a href="javascript:void(0);" ng-click="deleteCategory(category._id,index)"><i class="fa fa-trash"></i></a></li>-->
+                                                        </ul></td>
+                                                </tr>
+                                                <tr ng-show="noCategoryFound"><td colspan="4"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="adminpagination text-right col-lg-12" ng-show="categoryListPagination">
+                                            <!--                                            <ul class="pagination">
+                                                                                            <li> <a aria-label="Previous" href="javascript:void(0);"> <span aria-hidden="true">Â«</span> </a> </li>
+                                                                                            <li class="active"><a href="javascript:void(0);">1</a></li>
+                                                                                            <li><a href="javascript:void(0);">2</a></li>
+                                                                                            <li><a href="javascript:void(0);">3</a></li>
+                                                                                            <li><a href="javascript:void(0);">4</a></li>
+                                                                                            <li><a href="javascript:void(0);">5</a></li>
+                                                                                            <li> <a aria-label="Next" href="javascript:void(0);"> <span aria-hidden="true">Â»</span> </a> </li>
+                                                                                        </ul>-->
+                                            <pagination total-items="categoryTotalItems" ng-click="categoryList()" ng-model="categoryCurrentPage" max-size="categoryMaxSize" class="pagination" boundary-links="true"></pagination>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+

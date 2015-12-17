@@ -1,0 +1,200 @@
+<div class="commondashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>
+            <!--            <div class="mobile_dashboard_heading">
+                            <h3>Edit Business Info</h3>
+                        </div>      -->
+            <div class="content">
+                <div class="mobile_dashboard_heading01">
+                    <h3 class="visible-xs business_name" ng-if="myBusinessInfo !== undefined && myBusinessInfo !== ''">{{myBusinessInfo.business_name}}</h3>
+                    <h3>Edit Business Info</h3>
+                </div>
+                <div class="overlay text-center " id="listingUpdateLoaderDiv" ng-hide="hideListPageLoader">
+                    <i class="fa fa-spinner fa-spin fa-2x"></i>
+                </div>
+                <div class="businessinfo_page">    
+                    <div id="editbusiness_info" class="editbusiness_info">
+                        <div class="myform">
+                            <form name="form" novalidate>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Business Name:<span class="color-red">*</span></label>
+                                            <input type="text" value="Business Name" ng-model="listingForm.business_name" name="business_name" required="" class="form-control">
+                                            <div ng-show="form.$submitted || form.business_name.$touched">
+                                                <span class="text-danger" ng-show="form.business_name.$error.required">Business name is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Business Category:<span class="color-red">*</span></label>
+                                            <div ng-dropdown-multiselect="" events="categoryEvents"  options="categoryData"  translation-texts="businessCatText" extra-settings="multiSelectSettings" selected-model="category"></div>
+
+                                            <input type="hidden" class="form-control" name="category" required="" ng-model="listingForm.categoryHddn">
+                                            <div ng-show="form.$submitted || form.category.$touched">
+                                                <span class="text-danger" ng-show="form.category.$error.required">Category is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>                 
+                                </div>                 
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Neighbour:</label>
+                                            <input type="text" value="Neighbour" ng-model="listingForm.neighbour" name="neighbour" class="form-control">
+                                            <!--                                        <div ng-show="form.$submitted || form.neighbour.$touched">
+                                                                                        <span class="text-danger" ng-show="form.neighbour.$error.required">Neighbour is required.</span>
+                                                                                    </div>-->
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Website:</label>
+                                            <input type="text" ng-model="listingForm.website_name" name="website_name" value="website" class="form-control" ng-pattern="/(http(s)?://)?([\w-]+\.)+[\w-]+(/[\w- ;,./?%&=]*)?/">
+                                            <div ng-show="form.$submitted || form.website_name.$touched">
+                                                <span class="text-danger" ng-show="form.website_name.$error.pattern">Enter a valid url.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+
+                                        <div class="form-group">
+                                            <label>Phone:<span class="color-red">*</span></label>
+                                            <input type="text" value="Phone" ng-model="listingForm.phone_number" name="phone_number" required="" ng-minlength="10" maxlength="10" ng-pattern="/^[0-9]+$/"  class="form-control">
+                                            <div ng-show="form.$submitted || form.phone_number.$touched">
+                                                <span class="text-danger" ng-show="form.phone_number.$error.required">Phone number is required.</span>
+                                                <span class="text-danger" ng-show="form.phone_number.$error.pattern">Enter a valid phone number.</span>
+                                                <span class="text-danger" ng-show="form.phone_number.$error.minlength">Please enter minimum 10 character.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Address:<span class="color-red">*</span></label>
+                                            <input type="text" value="Address" ng-model="listingForm.address" name="address" required="" class="form-control">
+                                            <div ng-show="form.$submitted || form.address.$touched">
+                                                <span class="text-danger" ng-show="form.address.$error.required">Address is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">                   
+                                    <div class="col-sm-6">
+
+                                        <div class="form-group">
+                                            <label>State:<span class="color-red">*</span></label>
+                                            <div ng-dropdown-multiselect="" events="stateEvents"  translation-texts="statesText" options="statesData" selected-model="stateHdn" extra-settings="stateSettings"></div>
+                                            <input type="hidden" name="state" required="" ng-model="listingForm.state" />
+                                            <div ng-show="form.$submitted || form.state.$touched">
+                                                <span class="text-danger" ng-show="form.state.$error.required">State is required.</span>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>City:<span class="color-red">*</span></label>
+                                            <input type="text" value="City" ng-model="listingForm.city" name="city"  required="" class="form-control">
+                                            <div ng-show="form.$submitted || form.city.$touched">
+                                                <span class="text-danger" ng-show="form.city.$error.required">City is required.</span>
+                                            </div> 
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">                   
+                                    <div class="col-sm-6">
+
+                                        <div class="form-group">
+                                            <label>Zipcode:<span class="color-red">*</span></label>
+                                            <input type="text" value="Zipcode" ng-model="listingForm.zipcode" name="zipcode" ng-minlength="5" maxlength="6" required="" class="form-control">
+                                            <div ng-show="form.$submitted || form.zipcode.$touched">
+                                                <span class="text-danger" ng-show="form.zipcode.$error.required">Zipcode is required.</span>
+                                                <span class="text-danger" ng-show="form.zipcode.$error.pattern">Enter a valid zipcode.</span>
+                                                <span class="text-danger" ng-show="form.zipcode.$error.minlength">Enter a valid zipcode.Please enter minimum 5 digits.</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Notification Phone Number:<span class="color-red">*</span></label>
+                                            <input type="text" value="Phone" ng-model="listingForm.notification_number" name="notification_number" required="" ng-minlength="10" maxlength="10" ng-pattern="/^[0-9]+$/" placeholder="Notification Number"  class="form-control">
+                                            <div ng-show="form.$submitted || form.notification_number.$touched">
+                                                <span class="text-danger" ng-show="form.notification_number.$error.required">Notification phone number is required.</span>
+                                                <span class="text-danger" ng-show="form.notification_number.$error.pattern">Enter a valid notification phone number.</span>
+                                                <span class="text-danger" ng-show="form.notification_number.$error.minlength">Please enter minimum 10 character.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">                   
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Notification Email:<span class="color-red">*</span></label>
+                                            <input type="text" class="form-control" ng-model="listingForm.notification_email" name="notification_email" required="" placeholder="Notification Email" ng-pattern="/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/">
+                                            <div ng-show="form.$submitted || form.notification_email.$touched">
+                                                <span class="text-danger" ng-show="form.notification_email.$error.required">Email is required.</span>
+                                                <span class="text-danger" ng-show="form.notification_email.$error.pattern">This is not a valid email.</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Business Logo:</label>
+                                            <div class="logobox"> 
+                                                <img ng-src="{{businessImageLogo}}" class="img-responsive"> 
+                                                <input type="file" class="inputfile_new" id="businessLogoId" accept="image/x-png, image/jpeg" file-model="businessLogo"  />
+                                                <button type="button" class="btn btn-danger btn-sm btn-block" ng-click="fileClickEvent()"> Browse</button> </div>                                
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>About Us:</label>
+                                            <textarea class="form-control" ng-model="listingForm.about_us" name="about_us" rows="4">About us</textarea>
+                                            <!--                                        <div ng-show="form.$submitted || form.about_us.$touched">
+                                                                                        <span class="text-danger" ng-show="form.about_us.$error.required">About us is required.</span>
+                                                                                    </div>-->
+                                        </div>
+<!--                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="" ng-model="listingForm.is_notification_email" name="notification_email"> <strong>Notification through Email</strong>
+                                                </label>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="" ng-model="listingForm.is_notification_sms" name="notification_email"> <strong> Notification through SMS</strong>
+                                                </label>
+                                            </div>
+
+
+                                        </div> -->
+                                    </div>
+                                </div>
+
+
+                                <button class="btn btn-danger pull-left" type="submit" ng-click="updateListing()" ng-disabled="disableUpdateListBtn">Update <i ng-show="updateListLoader" class="fa fa-spinner fa-spin"></i></button>&nbsp;
+                                <a ui-sref="user.businessinfo" class=" btn btn-primary" id="back_businessview">Back</a>
+                            </form>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

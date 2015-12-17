@@ -1,0 +1,41 @@
+<div class="commondashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>
+            <div class="mobile_dashboard_heading">
+                <h3>Claim Listings</h3>
+            </div>
+            <div class="content">
+                <div class="managelisting_page">
+                    <div class="back_edit clearfix"> <a ng-click="backButton()" class="pull-right btn btn-primary">Back</a> </div>
+                    <div class="claimlisting well well-sm">
+                        <ul class="list-unstyled">
+                            <li ng-show="claimListLoader"><div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></li>
+                            <li ng-repeat="businessUser in claimedListing">
+                                <div class="row" >
+                                    <div class="col-lg-8 left">
+                                        <h2>{{businessUser.user_id.first_name+' '+businessUser.user_id.last_name}}</h2>
+                                        <ul class="list-inline">
+                                            <li><i class="fa fa-map-marker"></i> {{businessUser.user_id.address}}</li>
+                                            <li><i class="fa fa-phone"></i>{{businessUser.user_id.phone_number}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-4 right text-right">
+                                        <div class="btn-group"> <a href="javascript:void(0);" ng-show="businessUser.status !== 'rejected' && businessUser.status !== 'accepted'? true:false" ng-click="acceptClaim(businessUser.user_id._id,businessUser._id,'accepted',userClaimArray)" class="btn btn-primary btn-sm">Assign</a> </div>
+                                        <div class="btn-group"> <a href="javascript:void(0);" ng-show="businessUser.status !== 'rejected' && businessUser.status !== 'accepted'? true:false" ng-click="acceptClaim(businessUser.user_id._id,businessUser._id,'rejected',userClaimArray)" class="btn btn-danger btn-sm">Reject</a> </div>
+                                        <div class="btn-group btn btn-primary btn-sm" ng-show="businessUser.status === 'accepted'? true:false">Accepted </div>
+                                        <div class="btn-group btn btn-danger btn-sm" ng-show="businessUser.status === 'rejected'? true:false">Rejected </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li ng-show="noClaimFound">
+                                <div class="alert alert-danger text-center" > No Record Found !</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

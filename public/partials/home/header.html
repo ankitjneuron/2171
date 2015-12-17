@@ -1,0 +1,37 @@
+<nav  class="navbar navbar-default navbar-fixed-top clearfix headerChk">
+    <div class="container">
+        <div class="navbar-header">
+            <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a ui-sref="root.index" class="navbar-brand"><img class="img-responsive" src="images/baya_logo.png"></a>
+        </div>
+         <div class="right-section" ng-show="showAfterLoginHeader"  id="showAfterLoginHeader">  
+           <ul class="list-inline" data-ng-init="setUserInfo()">         
+            <li data-ng-if="userType==='admin'"><a class="useracconut" ui-sref="admin.dashboard"><div style="background-image:url({{profileImage}})" class="userimg"></div> <span class="name">{{userName}}</span></a></li>                      
+            <li data-ng-if="userType==='admin'"><a title="sign out" class="signout" ng-click="logout('admin')" href="javascript:void(0);"><i class="fa fa-sign-out"></i></a></li>    
+            <li data-ng-if="userType==='business_user'"><a class="useracconut" ui-sref="user.dashboard"><div style="background-image:url({{profileImage}})" class="userimg"></div> <span class="name">{{userName}}</span></a></li>                      
+            <li data-ng-if="userType==='business_user'"><a title="sign out" class="signout" ng-click="logout('business_user')" href="javascript:void(0);"><i class="fa fa-sign-out"></i></a></li>            
+           </ul>    
+           </div>
+        <div class="navbar-collapse collapse" id="navbar" aria-expanded="false">                    
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-show="$state.includes('root.for-doctor') || $state.includes('root.login') || $state.includes('root.signup') || $state.includes('root.listing')"><a  ui-sref="root.index" du-smooth-scroll du-scrollspy>HOME</a></li>
+                <li ng-show="$state.includes('root.for-doctor') || $state.includes('root.booking') || $state.includes('root.signup') || $state.includes('root.listing')"><a href="#how-it-works" du-smooth-scroll du-scrollspy>HOW IT WORKS </a></li>
+                <li ng-show="$state.includes('root.booking') || $state.includes('root.login') || $state.includes('root.signup') || $state.includes('root.listing')"><a href="#about-us" du-smooth-scroll du-scrollspy>ABOUT US</a></li>
+                <li ng-show="$state.includes('root.for-doctor') || $state.includes('root.booking') || $state.includes('root.login') || $state.includes('root.signup') || $state.includes('root.listing')"><a href="#testimonials" du-smooth-scroll du-scrollspy>TESTIMONIALS</a></li>
+                <li ng-hide="$state.includes('root.index') || $state.includes('root.home') || $state.includes('root')"><a href="#testimonials" du-smooth-scroll du-scrollspy>TESTIMONIALS</a></li>
+                <li ng-show="$state.includes('root.booking') || $state.includes('root.login') || $state.includes('root.signup') || $state.includes('root.listing') || $state.includes('root.index')"><a ui-sref="root.for-doctor">FOR DOCTOR</a></li>
+                 <li ng-hide="$state.includes('root.booking') || $state.includes('root.for-doctor') || $state.includes('root.login') || $state.includes('root.signup') || $state.includes('root.listing') || $state.includes('root.index')"><a ui-sref="root.for-doctor">FOR DOCTOR</a></li>
+                <li><a href="#baya-app" du-smooth-scroll du-scrollspy>BAYA APP  </a></li>
+                <li ng-hide="$state.includes('root.listing')"><a ui-sref="root.listing">BUSINESS</a></li>
+<!--                <li><a href="javascript:void(0);">BUSINESS</a></li>-->
+                <li ng-show="$state.includes('root.booking') || $state.includes('root.for-doctor') || $state.includes('root.signup') || $state.includes('root.listing')"><a ui-sref="root.login" du-smooth-scroll du-scrollspy ng-hide="showBeforeLoginHeader" id="showBeforeLoginHeader">LOGIN</a></li>
+                <li ng-show="$state.includes('root.booking') || $state.includes('root.for-doctor') || $state.includes('root.login') || $state.includes('root.listing')"><a ui-sref="root.signup" du-smooth-scroll du-scrollspy ng-hide="showBeforeLoginHeader">SIGN UP</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

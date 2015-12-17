@@ -1,0 +1,118 @@
+<script>
+    $(".headerChk").removeClass('navbar-fixed-top');
+</script>
+
+<main class="main-content innerpages">
+    <div class="container">  
+        <div class="loginsignup-page signup-page">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 leftsection">        
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 rightsection">              
+                    <h2>Sign Up to Claim and Manage Your Business Schedule</h2>
+                    <form name="form" novalidate>
+                        <div class="row col-space">
+                            <div class="col-sm-6 col-sm">
+                                <div class="form-group">
+                                    <input type="text" class="form-control " ng-model="signupFrom.first_name" name="first_name" required="" maxlength="255" placeholder="First Name">
+                                    <div ng-show="form.$submitted || form.first_name.$touched">
+                                        <span class="text-danger" ng-show="form.first_name.$error.required">First name is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-sm">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="signupFrom.last_name" name="last_name" required="" maxlength="255" placeholder="Last Name">
+                                    <div ng-show="form.$submitted || form.last_name.$touched">
+                                        <span class="text-danger" ng-show="form.last_name.$error.required">Last name is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="signupFrom.email" name="email" required="" maxlength="255" placeholder="Email" ng-pattern="/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/">
+                            <div ng-show="form.$submitted || form.email.$touched">
+                                <span class="text-danger" ng-show="form.email.$error.required">Email is required.</span>
+                                <span class="text-danger" ng-show="form.email.$error.pattern">This is not a valid email.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="signupFrom.phone_number" ng-minlength="10" maxlength="10" name="phone_number" ng-pattern="/^[0-9]+$/" required="" placeholder="Phone Number">
+                            <div ng-show="form.$submitted || form.phone.$touched">
+                                <span class="text-danger" ng-show="form.phone_number.$error.required">Phone Number is required.</span>
+                                <span class="text-danger" ng-show="form.phone_number.$error.pattern">Enter a valid phone number.</span>
+                                <span class="text-danger" ng-show="form.phone_number.$error.minlength">Please enter minimum 10 digits.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="signupFrom.address" name="address" required="" maxlength="255" placeholder="Address">
+                            <div ng-show="form.$submitted || form.address.$touched">
+                                <span class="text-danger" ng-show="form.address.$error.required">Address is required.</span>
+                            </div>
+                        </div>
+                        <div class="row col-space">
+                            <div class="col-sm-6 col-sm">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="signupFrom.city"  name="city" required="" maxlength="255" placeholder="City">
+                                    <div ng-show="form.$submitted || form.city.$touched">
+                                        <span class="text-danger" ng-show="form.city.$error.required">City is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-sm">
+                                <div class="form-group">
+                                    <div ng-dropdown-multiselect="" events="stateEvent"  translation-texts="statesText" options="statesData" selected-model="stateHdn" extra-settings="stateSettings"></div>
+                                    <input type="hidden" name="state" required="" ng-model="signupFrom.state" />
+                                    <div ng-show="form.$submitted || form.state.$touched">
+                                        <span class="text-danger" ng-show="form.state.$error.required">State is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="signupFrom.zipcode" ng-minlength="5" maxlength="5" ng-pattern="/^[0-9]+$/" name="zipcode" required="" placeholder="Zip Code">
+                            <div ng-show="form.$submitted || form.zipcode.$touched">
+                                <span class="text-danger" ng-show="form.zipcode.$error.required">Zip code is required.</span>
+                                <span class="text-danger" ng-show="form.zipcode.$error.pattern">Enter a valid zipcode.</span>
+                                <span class="text-danger" ng-show="form.zipcode.$error.minlength">Please enter minimum 5 digits.</span>
+                            </div>
+                        </div>
+                        <div class="row col-space">
+                            <div class="col-sm-6 col-sm">
+                                <div class="form-group">
+                                    <input type="password" ng-minlength="6" ng-maxlength="15" class="form-control" ng-model="signupFrom.password" name="password" required="" placeholder="Password">
+                                    <div ng-show="form.$submitted || form.password.$touched">
+                                        <span class="text-danger" ng-show="form.password.$error.required">Password is required.</span>
+                                        <span class="text-danger" ng-show="form.password.$error.minlength">Password is too short.</span>
+                                        <span class="text-danger" ng-show="form.password.$error.maxlength">Password is too long.</span>                                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-sm">
+                                <div class="form-group">
+                                    <input data-password-verify="signupFrom.password" type="password" class="form-control" ng-model="signupFrom.confirm_password"  name="confirm_password" required="" placeholder="Confirm Password">
+                                    <div ng-show="form.$submitted || form.confirm_password.$touched">
+                                        <span class="text-danger" ng-show="form.confirm_password.$error.required">Confirm Password is required.</span>
+                                        <span class="text-danger" ng-show="form.confirm_password.$error.passwordVerify">Confirm password does not match.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix sub_btn">
+                            <button type="submit" ng-click="signup()" class="btn btn-danger pull-left" ng-disabled="btnDisable" >Sign up<i class="fa fa-spinner fa-1 fa-spin" ng-show="btnLoader"></i></button>
+                            <span class="pull-right"> Already User? Please <a ui-sref="root.login" class="link-purple">Login </a> </span>                
+                        </div>
+                    </form>
+                    <div class="googleplay">
+                        <h3>Register here, If you are Business Owner. Patient can download app from App Store</h3>
+                        <a href="javascript:void(0)"><img src="images/googleplay_btn.png" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+</script>

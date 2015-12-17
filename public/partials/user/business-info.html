@@ -1,0 +1,112 @@
+<div class="commondashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>
+            <!--         <div class="mobile_dashboard_heading">
+                    <h3>Business Info</h3>
+                  </div>      -->
+            <div class="content">
+                <div class="mobile_dashboard_heading01">
+                    <h3 class="visible-xs business_name" ng-if="myBusinessInfo !== undefined && myBusinessInfo !== ''">{{myBusinessInfo.business_name}}</h3>
+                    <h3>Business Info</h3>
+                </div>
+                <!--        <div class="overlay text-center " id="listingLoaderDiv" ng-hide="hideDetailLoader">
+                                <i class="fa fa-spinner fa-spin fa-2x"></i>
+                        </div>-->
+                <div class="businessinfo_page">  
+                    <div class="well well-sm clearfix">
+                        <div class="text-center" ng-show="listDetailLoader"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div>   
+                        <div class="" ng-show="noListingAvailable">
+                            <h2>You have not claimed any listing. <a ui-sref="root.listing" class="">Click here</a> to claim.</h2> 
+                        </div>     <!--ng-show="listingAvailable"-->
+                        <div class="viewbusiness_info" id="viewbusiness_info" ng-show="listingAvailable">
+                            <div class="form-horizontal">
+                                <a ui-sref="user.editbusinessinfo" class="btn btn-primary editbtn hidden-xs" ng-show="editMyListing">Edit Business</a>
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-lg-2 control-label">Business Name <span>:</span></label>
+                                    <div class="col-sm-9 col-lg-10">
+                                        <p class="form-control-static">{{listingDetail.business_name}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-lg-2 control-label">Business Category <span>:</span></label>
+                                    <div class="col-sm-9 col-lg-10">
+                                        <p class="form-control-static">{{getBusinessCategory(listingDetail.business_category)}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-lg-2 control-label">Neighbour <span>:</span></label>
+                                    <div class="col-sm-9 col-lg-10">
+                                        <p class="form-control-static">{{(listingDetail.neighbour !== '' && listingDetail.neighbour !== undefined)?listingDetail.neighbour:'-'}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-lg-2 control-label">Website <span>:</span></label>
+                                    <div class="col-sm-9 col-lg-10">
+                                        <p ng-if="listingDetail.website_name !== '' && listingDetail.website_name !== undefined" class="form-control-static">{{listingDetail.website_name}}</p>
+                                        <p ng-if="listingDetail.website_name === '' || listingDetail.website_name === undefined" class="form-control-static">-</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-lg-2 control-label">Phone <span>:</span></label>
+                                    <div class="col-sm-9 col-lg-10">
+                                        <p class="form-control-static">{{listingDetail.phone_number}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-lg-2 control-label">Address <span>:</span></label>
+                                    <div class="col-sm-9 col-lg-10">
+                                        <p class="form-control-static">{{listingDetail.address}} </p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-lg-2 control-label">State <span>:</span></label>
+                                    <div class="col-sm-9 col-lg-10">
+                                        <p class="form-control-static">{{listingDetail.state.state_name}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-lg-2 control-label">City <span>:</span></label>
+                                    <div class="col-sm-9 col-lg-10">
+                                        <p class="form-control-static">{{listingDetail.city}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-lg-2 control-label">Zipcode <span>:</span></label>
+                                    <div class="col-sm-9 col-lg-10">
+                                        <p class="form-control-static">{{listingDetail.zipcode}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-lg-2 control-label">Business Logo <span>:</span></label>
+                                    <div class="col-sm-9 col-lg-10">
+                                        <div class="logobox" ng-if="listingDetail.business_logo !== '' && listingDetail.business_logo !== undefined">
+                                            <img  ng-src="uploads/listing/{{listingDetail.business_logo}}" class="img-responsive">                       
+                                        </div>
+                                        <div class="logobox" ng-if="listingDetail.business_logo === '' || listingDetail.business_logo === undefined">
+                                            <img  ng-src="images/default_logo.jpg" class="img-responsive">
+                                        </div>   
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 col-lg-2 control-label">About Us <span>:</span></label>
+                                    <div class="col-sm-9 col-lg-10">
+                                        <p class="form-control-static" ng-if="listingDetail.about_us !== '' && listingDetail.about_us !== undefined">{{listingDetail.about_us}}</p>
+                                        <p class="form-control-static" ng-if="listingDetail.about_us === '' || listingDetail.about_us === undefined">-</p>
+                                    </div>
+                                </div>
+                                <a href="javascript:void(0);" class="btn btn-primary visible-xs-inline-block" id="editbsn_btn">Edit Business</a>
+                            </div>
+                        </div>
+
+                     </div>      
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

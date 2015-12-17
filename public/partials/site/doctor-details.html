@@ -1,0 +1,169 @@
+<div class="breadcrum">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a ui-sref="root.index">Home</a></li>
+            <li><a ui-sref="root.listing"> Business</a></li>
+            <li class="active">Doctor Details</li>
+        </ol>
+    </div>
+</div>
+<div class="clearfix"></div>
+<main class="main-content innerpages">
+    <div class="container">
+       
+        <div class="doctor_detail">
+             <div class="overlay text-center " id="pageLoaderDiv" ng-show="hidePageLoader">
+                  <i class="fa fa-spinner fa-spin fa-2x"></i>
+        </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-8 leftsection">
+                    <div class="detail_top clearfix">
+                        <div class="doctor_logo">
+                            <div class="logo"> 
+                                <img class="img-responsive center-block" style="height: 150px;width: 150px;" ng-src="{{defaultBusinessLogo}}"> 
+                            </div>
+                            <a ui-sref="root.booking" class="btn btn-primary hidden-xs">Book Now</a> </div>
+                        <div class="deatils_info">
+                            <h2><span>{{listingDetails.business_name}}</span> 
+                                <span ng-show="!loginChk">
+                                    <a ng-hide="hideClaimButton" id="claimId_{{listingDetails._id}}" ng-if="(listingDetails.owner_id===undefined || listingDetails.owner_id==='') && myClaim.listing_id===undefined" data-toggle="modal" data-target="#login_popup" class="btn btn-danger pull-right hidden-xs" href="javascript:void(0);">Claim Profile</a>
+                                </span>
+                                <span id="claimCancelDiv" ng-if="loginChk == true">
+                                    <a ng-hide="hideClaimButton" ng-if="(listingDetails.owner_id===undefined || listingDetails.owner_id==='') && myClaim.listing_id===undefined" id="claimId_{{listingDetails._id}}" class="btn btn-danger pull-right hidden-xs"  ng-click="claimOnList(listingDetails._id)" href="javascript:void(0);">Claim Profile</a>
+                                    <a ng-if="(listingDetails.owner_id===undefined || listingDetails.owner_id==='') && myClaim.listing_id===listingDetails._id && myClaim.status==='pending'"  class="btn btn-danger pull-right hidden-xs"   href="javascript:void(0);" ng-click="cancelClaimOnList(listingDetails._id,myClaim.claim_id)">Cancel Claim</a>
+                                    <a ng-if="myClaim.status==='accepted' &&  myClaim.listing_id===listingDetails._id" class="btn btn-danger pull-right hidden-xs" ui-sref="user.dashboard">Manage this Profile</a>
+                                </span>
+                                <a id="acceptedClaimId" style="display: none" class="btn btn-danger pull-right hidden-xs" href="javascript:void(0);">Accepted</a>
+                            </h2>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="fa fa-stethoscope"></i> 
+                                    <span ng-repeat="catagory in listingDetails.business_category">
+                                        {{(!$last)?catagory.cat_id.category_name+",":catagory.cat_id.category_name}}  
+                                    </span>
+                                </li>
+                                <li><i class="fa fa-map-marker"></i>{{listingDetails.address+' '+listingDetails.city+' '+listingDetails.state.state_name+' '+listingDetails.zipcode}}</li>
+                                <li><i class="fa fa-phone"></i>{{listingDetails.phone_number}}</li>
+                            </ul>
+                            <div class="mobile_btn visible-xs">
+                                <div class="btn-group"><a href="javascript:void(0);" class="btn btn-primary">Book Now</a></div>
+                                <div class="btn-group"><a class="btn btn-danger" href="javascript:void(0);">Claim Pofile</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail_bottom">
+                        <h2><img src="images/about_icon.png"> About</h2>
+                        <div class="about_detail">
+                            <p>{{(listingDetails.about_us == undefined)?'N/A':listingDetails.about_us}}</p>
+                        </div>
+                        <h2><img src="images/ourdoctor_icon.png"> Our Doctors</h2>
+                        <div class="ourdoctor">
+                            <div class="media" ng-repeat="doctor in listingDetails.doctors">
+                                <div class="media-left">
+                                    <div ng-if="doctor.image!==undefined && doctor.image!==''" class="media-object" style="background-image:url(uploads/profile/thumb/{{doctor.image}});"></div>
+                                    <div ng-if="doctor.image===undefined || doctor.image===''" class="media-object" style="background-image:url(uploads/profile/default-profileimage.jpg);"></div>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{doctor.name}}</h4>
+                                    <h5><img src="images/list_icon.png"> 
+                                        <em ng-repeat="catagory in doctor.speciality">
+                                            {{(!$last)?catagory.cat_id.category_name+",":catagory.cat_id.category_name}}  
+                                        </em>
+                                    </h5>
+                                    <p>{{doctor.description}}</p>
+                                </div>
+                            </div>
+                            <div ng-show="noDoctorFound" class="alert alert-danger text-center" > No Doctor Found !</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 rightsection">
+                    <div class="businesshour">
+                        <div class="mapdiv"> 
+                            <!--<img class="img-responsive" src="images/map.jpg">--> 
+                            <div id="googleMap" style="height: 267px;width: 365px"></div>
+                        </div>
+                        <div class="datetimediv">
+                            <div class="datetime_inner">
+                                <h2>Business Hours</h2>
+                                <div class="row" ng-if="noScheduleFound === false">
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 left">
+                                        <div class="doctor_date">
+                                            <h4>Date</h4>
+                                            <ul class="list-unstyled">
+                                            <li ng-repeat="days in listingDetails.availability.availability">
+                                                {{days.availability_day}}
+                                            </li>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 right">
+                                        <div class="doctor_date">
+                                            <h4>Time</h4>
+                                            <ul class="list-unstyled">
+                                                <li ng-repeat="time in listingDetails.availability.availability">
+                                                    <div ng-if="time.availability_status==='yes'">
+                                                    <span>{{time.availability_from+' '+time.availability_schedule_from}}</span> - <span>{{time.availability_to+' '+time.availability_schedule_to}}</span>
+                                                    </div>
+                                                    <div ng-if="time.availability_status==='no'">Close</div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="noScheduleFound" class="alert alert-danger text-center" > No Record Found !</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-----------login popup----------->     
+<div class="modal fade" id="login_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog loginmodal" role="document">
+        <div class="modal-content">
+            <div class="modal-header login_head">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><img src="images/closemodal-icon.png" alt="close" /></button>
+            </div>     
+            <div class="modal-body">
+                <div class="loginbox">
+                    <header class="text-center">
+                        <div class="modallogo">
+                            <img class="img-responsive center-block" src="images/baya_logo.png">
+                        </div>
+                        <h2 class="text-center">LOGIN TO YOUR ACCOUNT</h2>
+                    </header>
+                    <form name="form" novalidate>
+                        <div class="form-group">
+                            <input type="email" class="form-control" ng-model="loginFrom.email" name="email" required="" placeholder="Email" >
+                            <div ng-show="form.$submitted || form.email.$touched">
+                                <span class="text-danger" ng-show="form.email.$error.required">Email is required.</span>
+                                <span class="text-danger" ng-show="form.email.$error.email">This is not a valid email.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" ng-model="loginFrom.password" name="password" required="" ng-minlength="6" ng-maxlength="15" placeholder="Password">
+                            <div ng-show="form.$submitted || form.password.$touched">
+                                <div  class="text-danger" ng-show="form.password.$error.required">Password is required.</div>
+                                <span class="text-danger" ng-show="form.password.$error.minlength">Password is too short.</span>
+                                <span class="text-danger" ng-show="form.password.$error.maxlength">Password is too long.</span>   
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" ng-click="login()" ng-disabled="disableLoginSbmtBtn" value="Save"  class="btn btn-danger">Login<i ng-show="loader" class="fa fa-spinner fa-spin"></i></button>
+                            <a ui-sref="root.forgotpassword" class="pull-right">Forgot Password</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="sign_bottom">
+                    <p>New Business? <a ui-sref="root.signup">CREATE ACCOUNT</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        $(".headerChk").removeClass('navbar-fixed-top');
+    </script>

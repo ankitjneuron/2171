@@ -1,0 +1,192 @@
+<div class="commondashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>
+
+            <div class="content">
+                <div class="text-center " id="businessHourLoaderDiv" ng-show="hidePageLoader">
+                  <i class="fa fa-spinner fa-spin fa-2x"></i>
+                 </div>
+                <div class="mobile_dashboard_heading01">
+                    <h3 class="visible-xs business_name">Elite Dental Care</h3>
+                    <h3>Business Hour</h3>
+                </div>
+                <div class="businessinfo_page">
+                    <div class="businesshour-tab">
+                        <h3>Set Availability Slots</h3>   
+                        <div class="well well-sm clearfix">
+                            <div class="myform">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group m-b-0">
+                                                <label>Time Slot:</label><br>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" ng-model="timeSlot" ng-value="15"> 15 minutes
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" ng-model="timeSlot" ng-value="30" ng-checked="true"> 30 minutes
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" ng-model="timeSlot" ng-value="45"> 45 minutes
+                                                </label> 
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" ng-model="timeSlot" ng-value="60"> Hour
+                                                </label> 
+                                            </div>
+                                        </div>
+
+                                    </div>                
+
+                                </form>
+                            </div>  
+                        </div>
+
+                        <h3>Business Hour</h3>      
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="table-responsive admintable">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:100px">Days</th>
+                                                    <th style="width:700px">Time</th>                             
+                                                    <th style="width:60px">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Monday <span class="color-red">*</span><input type="hidden" ng-model="mondayAvailabilityId"></td>
+                                                    <td>
+                                                        <div class="timebox">
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="mondayFromEvents"  translation-texts="mondayFromText" options="optionsData" selected-model="mondayFrom" extra-settings="settings"></div> <span class="format">AM</span>
+                                                            </div>                                             
+                                                            <span class="to">-To-</span>
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="mondayToEvents"  translation-texts="mondayToText" options="optionsData" selected-model="mondayTo" extra-settings="settings"></div> <span class="format">PM</span>
+                                                                
+                                                            </div>
+                                                        </div><span class="text-danger" ng-show="mondayError">Please select both field.</span>
+
+                                                    </td>
+
+                                                    <td> <switch id="mondayEnabled" name="mondayEnabled" ng-model="mondayEnabled" on="On"  off="Off" class="green"></switch></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tuesday <span class="color-red">*</span><input type="hidden" ng-model="tuesdayAvailabilityId"></td>
+                                                    <td><div class="timebox">
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="tuesdayFromEvents"  translation-texts="tuesdayFromText" options="optionsData" selected-model="tuesdayFrom" extra-settings="settings"></div> <span class="format">AM</span>
+                                                               
+                                                            </div>                                             
+                                                            <span class="to">-To-</span>
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="tuesdayToEvents"  translation-texts="tuesdayToText" options="optionsData" selected-model="tuesdayTo" extra-settings="settings"></div> <span class="format">PM</span>
+                                                                
+                                                            </div>
+                                                        </div><span class="text-danger" ng-show="tuesdayError">Please select both field.</span>
+                                                    </td>
+
+                                                    <td> <switch id="tuesdayEnabled" name="tuesdayEnabled" ng-model="tuesdayEnabled" on="On"  off="Off" class="green"></switch></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Wednesday <span class="color-red">*</span><input type="hidden" ng-model="wednesdayAvailabilityId"></td>
+                                                    <td><div class="timebox">
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="wednesdayFromEvents"  translation-texts="wednesdayFromText" options="optionsData" selected-model="wednesdayFrom" extra-settings="settings"></div> <span class="format">AM</span>
+
+                                                            </div>                                             
+                                                            <span class="to">-To-</span>
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="wednesdayToEvents"  translation-texts="wednesdayToText" options="optionsData" selected-model="wednesdayTo" extra-settings="settings"></div> <span class="format">PM</span> 
+                                                            </div>
+                                                        </div><span class="text-danger" ng-show="wednesdayError">Please select both field.</span>
+                                                    </td>
+
+                                                    <td> <switch id="wednesdayEnabled" name="wednesdayEnabled" ng-model="wednesdayEnabled" on="On"  off="Off" class="green"></switch></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Thursday <span class="color-red">*</span><input type="hidden" ng-model="thursdayAvailabilityId"></td>
+                                                    <td><div class="timebox">
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="thursdayFromEvents"  translation-texts="thursdayFromText" options="optionsData" selected-model="thursdayFrom" extra-settings="settings"></div> <span class="format">AM</span>
+                                                            </div>                                             
+                                                            <span class="to">-To-</span>
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="thursdayToEvents"  translation-texts="thursdayToText" options="optionsData" selected-model="thursdayTo" extra-settings="settings"></div> <span class="format">PM</span>  
+                                                            </div>
+                                                        </div><span class="text-danger" ng-show="thursdayError">Please select both field.</span>
+                                                    </td>
+
+                                                    <td> <switch id="thursdayEnabled" name="thursdayEnabled" ng-model="thursdayEnabled" on="On"  off="Off" class="green"></switch></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Friday <span class="color-red">*</span><input type="hidden" ng-model="fridayAvailabilityId"></td>
+                                                    <td><div class="timebox">
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="fridayFromEvents"  translation-texts="fridayFromText" options="optionsData" selected-model="fridayFrom" extra-settings="settings"></div> <span class="format">AM</span>
+                                                            </div>                                             
+                                                            <span class="to">-To-</span>
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="fridayToEvents"  translation-texts="fridayToText" options="optionsData" selected-model="fridayTo" extra-settings="settings"></div> <span class="format">PM</span> 
+                                                            </div>
+                                                        </div><span class="text-danger" ng-show="fridayError">Please select both field.</span>
+                                                    </td>
+
+                                                    <td> <switch id="fridayEnabled" name="fridayEnabled" ng-model="fridayEnabled" on="On"  off="Off" class="green"></switch></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Saturday <span class="color-red">*</span><input type="hidden" ng-model="saturdayAvailabilityId"></td>
+                                                    <td><div class="timebox">
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="saturdayFromEvents"  translation-texts="saturdayFromText" options="optionsData" selected-model="saturdayFrom" extra-settings="settings"></div> <span class="format">AM</span>
+                                                            </div>                                             
+                                                            <span class="to">-To-</span>
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="saturdayToEvents"  translation-texts="saturdayToText" options="optionsData" selected-model="saturdayTo" extra-settings="settings"></div> <span class="format">PM</span>   
+                                                            </div>
+                                                        </div><span class="text-danger" ng-show="saturdayError">Please select both field.</span>
+                                                    </td>
+
+                                                    <td> <switch id="saturdayEnabled" name="saturdayEnabled" ng-model="saturdayEnabled" on="On"  off="Off" class="green"></switch></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Sunday <span class="color-red">*</span><input type="hidden" ng-model="sundayAvailabilityId"></td>
+                                                    <td><div class="timebox">
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="sundayFromEvents"  translation-texts="sundayFromText" options="optionsData" selected-model="sundayFrom" extra-settings="settings"></div> <span class="format">AM</span>
+                                                            </div>                                             
+                                                            <span class="to">-To-</span>
+                                                            <div class="comm">
+                                                                <div ng-dropdown-multiselect="" events="sundayToEvents"  translation-texts="sundayToText" options="optionsData" selected-model="sundayTo" extra-settings="settings"></div> <span class="format">PM</span>   
+                                                            </div>
+                                                        </div><span class="text-danger" ng-show="sundayError">Please select both field.</span>
+                                                    </td>
+
+                                                    <td> <switch id="sundayEnabled" name="sundayEnabled" ng-model="sundayEnabled" on="On"  off="Off" class="green"></switch></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>  
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group m-t-20">
+                            <button class="btn btn-danger" type="submit" ng-click="saveBusinessHour()" ng-disabled="businessHoursBtnDisable"> Save <i ng-show="addBusinessHoursLoader" class="fa fa-spinner fa-spin"></i></button>
+                            
+                        </div>     
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

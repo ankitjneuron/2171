@@ -1,0 +1,78 @@
+<section id="home" data-anchor="home" class="home_section home_search">
+<div class="caurosal-inner home_searchbox">
+     <div class="container"> 
+      <h1 class="text-center">Find & book appointments with Doctors</h1>   
+    <div class="well">
+         <form>
+        <div class="row">
+             <div class="col-lg-5 col-md-5 col-sm-4 p-r-sm-0">
+            <div class="form-group">
+                <!-- <label>Find Business</label>-->
+                 <input type="text" ng-model="businessName" class="form-control input-lg business-icon" placeholder="Find Doctors">
+               </div>
+          </div>
+             <div class="col-lg-5 col-md-5 col-sm-5">
+            <div class="form-group">
+                <!-- <label>Location</label>-->
+                 <input type="text" ng-model="address" class="form-control input-lg location-icon" placeholder="Location">
+               </div>
+          </div>
+             <div class="col-lg-2 col-md-2 col-sm-3">           
+            <button type="button" ng-click="searchBusiness()" class="btn btn-danger btn-block btn-lg"><span class="glyphicon glyphicon-search"></span> SEARCH</button>
+          </div>
+           </div>
+      </form>
+       </div>
+     
+       </div>
+ </div>
+     <div id="video-wrap">
+    <video id="my-video" width="100%" height="100%" preload="metadata" autoplay loop>
+          <source src="video/doctor.webm" type="video/webm">
+          <source src="video/doctor.ogg" type="video/ogg">
+          <source src="video/doctor.mp4" type="video/mp4">
+       </video>
+  </div>
+   </section>
+
+<main class="main-content">
+<section id="baya-app"  data-anchor="baya-app" class="bayaapp_section">   
+    <div class="container">
+      <i class="aap_icon"><a href="javascript:void(0);"><img class="img-responsive " src="images/app_icon.png"></a></i>
+        <div class="heading_top text-center">
+             <h2 class="m-t-0">Find A Doctor Wherever You Are</h2>
+             <h4>GET THE NEW BAYA APP</h4>
+           </div>
+    <div class="app_inner">
+         <div class="row">
+             <div class="col-lg-6 col-md-6 col-sm-6 col-sm-push-6">
+            <div class="app_rightside">
+                 <h2>BAYA APP</h2>
+                 <h4 class="m-t-0">Hello & Welcome To BAYA.</h4>
+                 <p>Find a nearby doctor and book an appointment instantly.And it’s free!</p>
+                 <a href="javascript:void(0);"><img src="images/googleplay_btn.png"></a> </div>
+          </div>
+             <div class="col-lg-6 col-md-6 col-sm-6 col-sm-pull-6"> <img class="img-responsive wow fadeInLeft animated center-block" data-wow-delay="0.2s"  src="images/bayaapp_icon.png"> </div>
+           </div>
+      </div>
+       </div>
+ 
+   </section>
+   </main>
+ <script>
+     var wow = new WOW({
+        offset: 100, // distance to the element when triggering the animation (default is 0)
+        mobile: false       // trigger animations on mobile devices (default is true)
+    });
+    wow.init();
+
+    $(function () {
+        if ($(window).width() > 1200)
+            $(window).resize(function () {
+                $(".home_section").height($(this).height());
+            }).resize();
+    });
+
+   $(".headerChk").removeClass('navbar-fixed-top');
+   $(".headerChk").addClass('navbar-fixed-top');
+</script>

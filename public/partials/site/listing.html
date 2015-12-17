@@ -1,0 +1,129 @@
+<div class="breadcrum">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a ui-sref="root.index">Home</a></li>
+            <li class="active">Business</li>
+        </ol>
+    </div>
+</div> 
+<main class="main-content innerpages">
+    <div class="container">
+        <div class="doctor_listing clearfix">
+            <h2>Book Appointments with your Favorite Business profile</h2>
+            <div class="well">
+         <form action="listing.php">
+        <div class="row">
+             <div class="col-lg-5 col-md-5 col-sm-4 p-r-sm-0">
+            <div class="form-group">
+                <!-- <label>Find Business</label>-->
+                 <input type="text" placeholder="Find Business" ng-model="businessName" class="form-control input-lg business-icon">
+               </div>
+          </div>
+             <div class="col-lg-5 col-md-5 col-sm-5">
+            <div class="form-group">
+                <!-- <label>Location</label>-->
+                 <input type="text" placeholder="Location" ng-model="address" class="form-control input-lg location-icon">
+               </div>
+          </div>
+             <div class="col-lg-2 col-md-2 col-sm-3">           
+            <button class="btn btn-danger btn-block btn-lg" type="button" ng-click="getAllBusinessListing()"><span class="glyphicon glyphicon-search"></span> SEARCH</button>
+          </div>
+           </div>
+      </form>
+       </div>
+            <div class="list_box" ng-repeat="listing in businessListing">
+                <div class="listbox_logo">
+                    <a ui-sref="root.doctordetails({id:'{{listing._id}}'})">
+                        
+                        <img alt="Elite" class="img-responsive" ng-if="listing.business_logo===undefined || listing.business_logo===''" style="height: 150px;width: 150px;" ng-src="uploads/listing/defaulthospital-logo.jpg"> 
+                         <img alt="Elite" class="img-responsive" ng-if="listing.business_logo!==undefined && listing.business_logo!==''" style="height: 150px;width: 150px;" ng-src="uploads/listing/{{listing.business_logo}}"> 
+                    </a>
+                </div>               
+                <div class="listbox_info">
+                    <div class="listbox_heading"> 
+                        <h3><a ui-sref="root.doctordetails({id:'{{listing._id}}'})">{{listing.business_name}}</a></h3>
+                        <span>
+                            <i class="fa fa-stethoscope"></i>
+                            <em ng-repeat="catagory in listing.business_category">
+                                {{(!$last)?catagory.cat_id.category_name+",":catagory.cat_id.category_name}}  
+                            </em>
+                        </span>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-12 left">
+                            <ul class="list-unstyled">
+                                <li><i class="fa fa-map-marker"></i> {{listing.address+' '+listing.city+' '+listing.state.state_name+' '+listing.zipcode}}</li>
+                                <li><i class="fa fa-phone"></i>{{listing.phone_number}}</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 text-right right">
+                            <div class="btn-group m-b-5"><a class="btn btn-primary" ui-sref="root.booking">Book Now</a></div>
+<!--                            <div ng-show="!loginChk"  class="btn-group m-b-5"><a ng-if="(listing.owner_id===undefined || listing.owner_id==='') && myListingClaim.listing_id===undefined" ng-click="clearLoginValues()" data-toggle="modal" data-target="#login_popup" class="btn btn-danger" href="javascript:void(0);">Claim Profile</a></div>
+                            <div  ng-if="loginChk == true" class="btn-group m-b-5 claimCancelDiv" id="claimCancelDiv_{{listing._id}}">
+                                <a ng-init="checkClaim(listing.business_claim,listing._id)" ng-if="(listing.owner_id===undefined || listing.owner_id==='') && myListingClaim.listing_id===undefined" class="btn btn-danger" id="claimId_{{listing._id}}" ng-click="claimOnList(listing._id)" href="javascript:void(0);">Claim Profile</a>
+                                <a ng-if="(listing.owner_id===undefined || listing.owner_id==='') && myListingClaim.listing_id===listing._id && myListingClaim.status==='pending'" class="btn btn-danger" id="cancelClaimId_{{listing._id}}" href="javascript:void(0);" ng-click="cancelClaimOnList(listing._id,myListingClaim.claim_id)">Cancel Claim</a>
+                                <a ng-if="myListingClaim.status==='accepted' &&  myListingClaim.listing_id===listing._id" class="btn btn-danger" href="javascript:void(0);">Accepted</a>
+                            </div>-->
+                        </div>
+                    </div>
+                    <p>{{(listing.about_us == undefined)?'N/A':listing.about_us}}</p>
+                </div>
+            </div>
+            <div ng-show="noRecordFound" class="alert alert-danger text-center" > No Record Found !</div>
+            <div class="loadmore" ng-show="loadmore" ng-click="getAllBusinessListing(paginate)" ><a ng-disabled="loadMoreDisable" href="javascript:void(0)">Load more <i ng-show="loadMoreLoder" class="fa fa-spinner fa-spin"></i></a></div>
+            <div class="text-center"><i ng-show="listingLoader" class="fa fa-spinner fa-2 fa-spin"></i></div>
+        </div>
+    </div>
+</main> 
+
+<!-----------login popup----------->     
+<div class="modal fade" id="login_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog loginmodal" role="document">
+        <div class="modal-content">
+            <div class="modal-header login_head">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><img src="images/closemodal-icon.png" alt="close" /></button>
+            </div>     
+            <div class="modal-body">
+                <div class="loginbox">
+                    <header class="text-center">
+                        <div class="modallogo">
+                            <img class="img-responsive center-block" src="images/baya_logo.png">
+                        </div>
+                        <h2 class="text-center">LOGIN TO YOUR ACCOUNT</h2>
+                    </header>
+                    <form name="form" novalidate>
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="loginFrom.email" name="email" required="" placeholder="Email" ng-pattern="/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/" >
+                            <div ng-show="form.$submitted">
+                                <span class="text-danger" ng-show="form.email.$error.required">Email is required.</span>
+                                <span class="text-danger" ng-show="form.email.$error.pattern">This is not a valid email.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" ng-model="loginFrom.password" name="password" required="" ng-minlength="6" ng-maxlength="15" placeholder="Password">
+                            <div ng-show="form.$submitted">
+                                <div  class="text-danger" ng-show="form.password.$error.required">Password is required.</div>
+                                <span class="text-danger" ng-show="form.password.$error.minlength">Password is too short.</span>
+                                <span class="text-danger" ng-show="form.password.$error.maxlength">Password is too long.</span>   
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" ng-click="login()" id="userLogin" ng-disabled="disableLoginSbmtBtn" value="Save"  class="btn btn-danger">Login<i ng-show="loader" class="fa fa-spinner fa-spin"></i></button>
+                            <a ui-sref="root.forgotpassword" class="pull-right">Forgot Password</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="sign_bottom">
+                    <p>New Business? <a ui-sref="root.signup">CREATE ACCOUNT</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+   $(".headerChk").removeClass('navbar-fixed-top');
+//   $("#userLogin").click(function(){
+//        $('body').removeClass('modal-open');
+//        $('#login_popup').remove();
+//   });
+</script>

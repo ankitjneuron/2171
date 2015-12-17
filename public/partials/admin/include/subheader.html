@@ -1,0 +1,29 @@
+<header class="topheader clearfix">
+    <div class="left">
+        <button data-toggle="collapse-side" data-target=".side-collapse" data-target-2=".side-collapse-container" type="button" class="navbar-toggle hidden-sm"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+             </div>
+    <ul class="list-inline right">
+        <li><a ui-sref="admin.dashboard"> <i class="fa fa-home homeicon"></i> </a> </li>
+        <li class="usernamepic dropdown" data-ng-init="setUserInfo()">
+             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+            <div class="userimg" style="background-image:url({{profileImage}})"></div>
+            <span class="name">{{userName}}</span>
+             </a>
+             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+             <li><a ui-sref="admin.adminprofile"><i class="fa fa-user"></i> Manage admin account</a></li>
+             <li><a ui-sref="admin.changepassword"><i class="fa fa-key"></i> Change Password</a></li>
+             </ul>
+             </li>
+        <li class="logout"><a href="javascript:void(0);" ng-click="logout('admin')"><span aria-hidden="true" class="glyphicon glyphicon-off"></span></a></li>
+    </ul>
+</header>
+
+<script>
+     var sideslider = $('[data-toggle=collapse-side]');
+            var sel = sideslider.attr('data-target');
+            var sel2 = sideslider.attr('data-target-2');
+            sideslider.click(function(event){
+                $(sel).toggleClass('in');
+                $(sel2).toggleClass('out');
+            });
+    </script>

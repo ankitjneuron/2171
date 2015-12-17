@@ -1,0 +1,112 @@
+<div class="commondashboard_side">
+     <div ui-view="@left"></div>
+     <main class="side-collapse-container">
+    <div class="main-container">
+         <div ui-view="@subheader"></div>    
+         <div class="mobile_dashboard_heading">
+        <h3>Manage CMS</h3>
+      </div>
+         <div class="content">
+        <div class="managelisting_page"  >
+             <div class="row">
+            <div class="col-md-12">
+                 <div class="searchuser"> <a ui-sref="admin.addimage" class="btn btn-primary pull-left">Add Image</a>
+                <div class="custom-search-input">
+                     <form>
+                    <div class="input-group">
+                        <input type="text" class="search-query form-control" placeholder="Search" ng-model="searchValue">
+                         <button class="btn btn-danger" ng-click="searchResult()" type="button"> <span class=" glyphicon glyphicon-search"></span> </button>
+                       </div>
+                  </form>
+                   </div>
+              </div>
+                 <ul class="nav nav-tabs" role="tablist">
+                <li id="listingVerified" role="presentation" class="active"><a href="page" aria-controls="page" ng-click="tabChange('page');getCmsPage();" role="tab" data-toggle="tab">Page</a></li>
+                <li id="listingNonVerified" role="presentation"><a href="image" aria-controls="image" ng-click="tabChange('image');getImage();" role="tab" data-toggle="tab">Image</a></li>
+              </ul>
+                 <div class="panel panel-default">
+                <div class="panel-body">
+                     <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="page">
+                         <div class="row">
+                        <div class="table-responsive admintable">
+                             <table class="table">
+                            <thead>
+                                 <tr>
+                                 
+                                <th style="width:130px">Page Title</th>
+                                <th style="width:250px">Page Category</th>
+                                <th style="width:200px">Created Date</th>                 
+                                <th style="width:100px">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-show="cmsPageListLoader"><td colspan="4"><div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>
+                                <tr ng-repeat="(index,pageData) in pageData">                               
+                                <td>{{pageData.page_title}}</td>
+                                 <td>{{pageData.category_id.category_name}}</td>
+                                 <td>{{getDate(pageData.updated_at)}}</td>
+                                <td><ul class="list-inline editviewdel">
+                                    <li><a ui-sref="admin.updatecmspage({id:'{{pageData._id}}'})"><i class="fa fa-edit"></i></a></li>
+                                  </ul></td>
+                              </tr>
+                             <tr ng-show="noCmsPageFound"><td colspan="4"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr> 
+                               </tbody>
+                          </table>
+                           </div>
+                        <div class="adminpagination text-right col-lg-12" ng-show="cmsPageListPagination">
+                         <pagination total-items="cmsPageTotalItems" ng-click="getCmsPage()" ng-model="cmsPageCurrentPage" max-size="cmsPageMaxSize" class="pagination" boundary-links="true"></pagination>
+                           </div>
+                      </div>
+                       </div>
+                    <div role="tabpanel" class="tab-pane" id="image">
+                         <div class="row">
+                        <div class="table-responsive admintable">
+                             <table class="table">
+                            <thead>
+                                 <tr id="cmsImage">
+                                <th style="width:130px">Title</th>
+                                <th style="width:250px">Image</th>                               
+                                <th style="width:100px">Created Date</th>
+                                <th style="width:100px">Action</th>
+                              </tr>
+                               </thead>
+                            <tbody>
+                                 <tr ng-show="cmsImageListLoader"><td colspan="5"><div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>
+                                <tr ng-repeat="(index,cmsImageData) in imageData">
+                                <td>{{cmsImageData.image_title}}</td>
+                                <td><a href="{{baseUrl+'uploads/cms/'+cmsImageData.image_name}}" target="_blank">{{baseUrl+'uploads/cms/'+cmsImageData.image_name}}</a></td> 
+                                <td>{{getDate(cmsImageData.created_at)}}</td>
+                                <td><ul class="list-inline editviewdel">
+                                    <li><a href="javascript:void(0);" ng-click="deleteImage(cmsImageData._id,'image',index)"><i class="fa fa-trash"></i></a></li>
+                                  </ul></td>
+                              </tr>
+                                 <tr ng-show="noCmsImageFound"><td colspan="5"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr>  
+                               </tbody>
+                          </table>
+                           </div>
+                        <div class="adminpagination text-right col-lg-12" ng-show="cmsImageListPagination">
+<!--                             <ul class="pagination">
+                            <li> <a aria-label="Previous" href="#"> <span aria-hidden="true">Â«</span> </a> </li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li> <a aria-label="Next" href="#"> <span aria-hidden="true">Â»</span> </a> </li>
+                          </ul>-->
+                         <pagination total-items="cmsImageTotalItems" ng-click="getImage()" ng-model="cmsImageCurrentPage" max-size="cmsImageMaxSize" class="pagination" boundary-links="true"></pagination>
+                           </div>
+                      </div>
+                       </div>
+                  </div>
+                   </div>
+              </div>
+               </div>
+          </div>
+           </div>
+      </div>
+       </div>
+  </main>
+   </div>
+ 

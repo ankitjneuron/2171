@@ -1,0 +1,132 @@
+<div class="commondashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>
+<!--            <div class="mobile_dashboard_heading">
+                <h3>Manage My Profile</h3>
+            </div>-->
+
+            <div class="content">
+                <div class="mobile_dashboard_heading01">
+                        <h3 class="visible-xs business_name" ng-if="myBusinessInfo !== undefined && myBusinessInfo !== ''">{{myBusinessInfo.business_name}}</h3>
+                        <h3>Manage My Profile</h3>
+                    </div>
+                 <div class="overlay text-center " id="profileLoaderDiv" ng-hide="hidePageLoader">
+                  <i class="fa fa-spinner fa-spin fa-2x"></i>
+                 </div>
+                <div class="editmyprofile_page">
+                    <div class="well well-sm clearfix">
+                        <div class="myform">
+                            <form name="form" novalidate>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>First Name:<span class="color-red">*</span></label>
+                                            <input type="text" class="form-control " ng-model="userProfileFrom.first_name" name="first_name" required="" maxlength="255" placeholder="First Name">
+                                            <div ng-show="form.$submitted || form.first_name.$touched">
+                                                <span class="text-danger" ng-show="form.first_name.$error.required">First name is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>last Name:<span class="color-red">*</span></label>
+                                            <input type="text" class="form-control" ng-model="userProfileFrom.last_name" name="last_name" required="" maxlength="255" placeholder="Last Name">
+                                            <div ng-show="form.$submitted || form.last_name.$touched">
+                                                <span class="text-danger" ng-show="form.last_name.$error.required">Last name is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>                 
+                                </div>                 
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Email:<span class="color-red">*</span></label>
+                                            <input type="email" class="form-control" ng-model="userProfileFrom.email" name="email" required="" maxlength="255" placeholder="Email">
+                                            <div ng-show="form.$submitted || form.email.$touched">
+                                                <span class="text-danger" ng-show="form.email.$error.required">Email is required.</span>
+                                                <span class="text-danger" ng-show="form.email.$error.email">This is not a valid email.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone:<span class="color-red">*</span></label>
+                                            <input type="text" class="form-control" ng-model="userProfileFrom.phone_number" ng-minlength="10" maxlength="10" name="phone_number" ng-pattern="/^[0-9]+$/" required="" placeholder="Phone Number">
+                                            <div ng-show="form.$submitted || form.phone_number.$touched">
+                                                <span class="text-danger" ng-show="form.phone_number.$error.required">Phone Number is required.</span>
+                                                <span class="text-danger" ng-show="form.phone_number.$error.pattern">Enter a valid phone number</span>
+                                                <span class="text-danger" ng-show="form.phone_number.$error.minlength">Please enter minimum 10 character</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Address:<span class="color-red">*</span></label>
+                                            <input type="text" class="form-control" ng-model="userProfileFrom.address" name="address" required="" maxlength="255" placeholder="Address">
+                                            <div ng-show="form.$submitted || form.address.$touched">
+                                                <span class="text-danger" ng-show="form.address.$error.required">Address is required.</span>
+                                            </div>
+                                        </div></div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>State:<span class="color-red">*</span></label>
+                                            <div ng-dropdown-multiselect="" events="stateEvent"  translation-texts="statesText" options="statesData" selected-model="stateHdn" extra-settings="stateSettings"></div>
+                                            <input type="hidden" name="state" required="" ng-model="userProfileFrom.state" />
+                                            <div ng-show="form.$submitted || form.state.$touched">
+                                                <span class="text-danger" ng-show="form.state.$error.required">State is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">                   
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>City:<span class="color-red">*</span></label>
+                                            <input type="text" class="form-control" ng-model="userProfileFrom.city"  name="city" required="" maxlength="255" placeholder="City">
+                                            <div ng-show="form.$submitted || form.city.$touched">
+                                                <span class="text-danger" ng-show="form.city.$error.required">City is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Zipcode:<span class="color-red">*</span></label>
+                                            <input type="text" class="form-control" ng-model="userProfileFrom.zipcode" ng-minlength="5" maxlength="6" ng-pattern="/^[0-9]+$/" name="zipcode" required="" placeholder="Zip Code">
+                                            <div ng-show="form.$submitted || form.zipcode.$touched">
+                                                <span class="text-danger" ng-show="form.zipcode.$error.required">Zip code is required.</span>
+                                                <span class="text-danger" ng-show="form.zipcode.$error.pattern">Enter a valid zipcode</span>
+                                                <span class="text-danger" ng-show="form.zipcode.$error.minlength">Please enter minimum 5 character</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">                   
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Image:</label>
+                                            <div class="picbox"> 
+                                                    <img src="{{userProfileImageSrc}}" class="img-responsive"> 
+                                                    <input type="file" style="display: none" id="userImageId"  accept="image/x-png, image/jpeg" file-model="userProfileImage"  />
+                                                <button type="button" class="btn btn-danger btn-sm btn-block" ng-click="fileClickEvent()"> Browse</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <button class="btn btn-danger pull-left" type="submit" ng-click="updateUser()" ng-disabled="updateBtnDisable" >Update<i class="fa fa-spinner fa-1 fa-spin" ng-show="updateBtnLoader"></i></button>&nbsp;
+                            </form>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

@@ -1,0 +1,365 @@
+<body>
+    <div class="commondashboard_side userdashboard_side usercalender_side">
+        <div ui-view="@left"></div>
+        <main class="side-collapse-container">
+            <div class="main-container">
+                <div ui-view="@subheader"></div>     
+                <!--         <div class="mobile_dashboard_heading"><h3>Calender</h3></div>-->
+                <div class="content">
+                    <div class="mobile_dashboard_heading01">
+                        <h3 class="visible-xs business_name" ng-if="myBusinessInfo !== undefined && myBusinessInfo !== ''">{{myBusinessInfo.business_name}}</h3>
+                        <h3>Booking Calender</h3>
+                    </div>
+                    <div class="calender_page" id="demo">
+                        <!--               <img src="images/calender-img.jpg" class="img-responsive" />-->
+                        <div class="main_calenderdiv">
+                            <div class="row">
+                                <div class="calender_title_btn clearfix">            
+                                    <div class="col-lg-5 col-md-12 col-sm-12 col-lg-push-3 monthnamediv col-xs-12">
+                                        <h2 class="text-center monthname">{{ calendarControl.getTitle()}}</h2>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-5 col-lg-pull-5 todaydiv col-xs-5">
+                                        <div class="btn-group">
+                                            <button class="btn btn-default btn-sm" ng-click="calendarControl.prev()"><i class="fa fa-angle-left"></i></button>
+                                            <button class="btn btn-default btn-sm" ng-click="setCalendarToToday()">Today</button>
+                                            <button class="btn btn-default btn-sm" ng-click="calendarControl.next()"><i class="fa fa-angle-right"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 text-right col-sm-7 col-md-8 yearlydiv col-xs-7">
+                                        <div class="btn-group">
+                                            <label class="btn btn-default btn-sm" ng-model="calendarView" btn-radio="'year'">Year</label>
+                                            <label class="btn btn-default btn-sm" ng-model="calendarView" btn-radio="'month'">Month</label>
+                                            <label class="btn btn-default btn-sm" ng-model="calendarView" btn-radio="'week'">Week</label>
+                                            <!--                                            <label class="btn btn-default btn-sm" ng-model="calendarView" btn-radio="'day'">Day</label>-->
+                                        </div>
+                                    </div>
+
+                                </div>         
+                            </div>         
+                            <div class="calender_mainbox">
+                                <div class="calender_table">
+                                    <mwl-calendar
+                                        calendar-events="events"
+                                        calendar-view="calendarView"
+                                        calendar-current-day="calendarDay"
+                                        calendar-control="calendarControl"
+                                        calendar-event-click="eventClicked($event)"
+                                        calendar-edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
+                                        calendar-delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
+                                        calendar-edit-event-click="eventEdited($event)"
+                                        calendar-delete-event-click="eventDeleted($event)"
+                                        calendar-auto-open="true"
+                                        calendar-day-view-start="06:00"
+                                        calendar-day-view-end="22:00"
+                                        ></mwl-calendar>
+
+
+
+                                    <script type="text/ng-template" id="modalContent.html">
+                                        <div class="modal-header">
+                                        <h3 class="modal-title">Event action occurred!</h3>
+                                        </div>
+                                        <div class="modal-body">
+                                        <p>Action: <pre>{{ action }}</pre></p>
+                                        <p>Event: <pre>{{ event | json }}</pre></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button class="btn btn-primary" ng-click="$modalInstance.close()">OK</button>
+                                        </div>
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="viewall_appointmentlist">
+                        <a href="javascript:void(0);" id="hide_list" class="slidearrow"> <img src="images/slide-arrow.png" /> </a>
+                        <div class="mobile_dashboard_heading01">
+                            <h3>All Appointments List</h3>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="table-responsive admintable">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Patient Name</th>
+                                                    <th>Booking Time</th>
+                                                    <th>Specific Doctor</th>
+                                                    <th>Reason</th>
+                                                    <th>Gender</th>
+                                                    <th style="width:200px">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-show="viewAppointmentHistoryLoader"><td colspan="6"><div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>
+                                                <tr ng-repeat="data in viewAllAppointmentByDate">
+                                                    <td ng-if="data.patient_info.first_name !== undefined && data.patient_info.first_name !== ''">{{data.patient_info.first_name + ' ' + data.patient_info.last_name}}</td>
+                                                    <td ng-if="data.patient_info.first_name === undefined || data.patient_info.first_name === ''">-</td>
+                                                    <td>{{data.appointment_time}}</td>
+                                                    <td>{{getDoctorName(data.listing_id.doctors, data.doctor_id)}}</td>
+                                                    <td>{{data.appointment_reason}}</td>
+                                                    <td ng-if="data.patient_info.gender !== undefined">{{data.patient_info.gender}}</td>
+                                                    <td ng-if="data.patient_info.gender === undefined">-</td>
+                                                    <td>
+<!--                                                        <div id="afterDate_{{data._id}}" ng-if="data.appointment_status !== 'cancelled' && data.appointment_status !== 'rescheduled'">
+                                                            <span style="" id="acceptClickBtn_{{data._id}}">
+                                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm" ng-click="acceptAppointment(data._id, 'accepted')">Accept</a>
+                                                                 <a href="javascript:void(0)" class="btn btn-danger btn-sm" ng-click="acceptAppointment(data._id, 'rejected')">Reject</a>
+
+                                                            </span>
+                                                            <span style="" id="acceptNonClickBtn_{{data._id}}">
+                                                                <a href="javascript:void(0);" id="acceptBtn_{{data._id}}" class="btn btn-primary btn-sm">Appointment Accepted.</a>
+                                                                <a href="javascript:void(0)" id="rejectBtn_{{data._id}}" class="btn btn-danger btn-sm">Appointment Rejected.</a>
+                                                            </span>
+                                                        </div>
+                                                        <div id="backDate_{{data._id}}" ng-if="data.appointment_status !== 'cancelled' && data.appointment_status !== 'rescheduled'">
+                                                            <span style="" id="visitClickBtn_{{data._id}}">
+                                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm"  ng-click="acceptAppointment(data._id, 'visited')">Visited</a>
+                                                                <a href="javascript:void(0)" class="btn btn-danger btn-sm" ng-click="acceptAppointment(data._id, 'missed')">Missed</a>
+                                                            </span>
+                                                            <span  style="" id="visitNonClickBtn_{{data._id}}">
+                                                                <a href="javascript:void(0);" id="visitedBtn_{{data._id}}" class="btn btn-primary btn-sm">Appointment Visited.</a>
+                                                                <a href="javascript:void(0)" id="missedBtn_{{data._id}}" class="btn btn-danger btn-sm">Appointment Missed.</a>
+                                                            </span>
+                                                        </div>
+                                                        <div ng-if="data.appointment_status === 'cancelled'">
+                                                            <span>Cancelled</span>
+                                                        </div>-->
+                                                      <a href="javascript:void(0);" class="btn btn-primary btn-sm" ng-click="getAppointmentDetail(data._id)">View</a>&nbsp;
+                                                                 
+                                                    </td>
+                                                    <td ng-init="appointmentstatusChk(data.appointment_status, data.appointment_date, data._id)" style="display: none;"></td>
+                                                    <!--                                                    <td ng-if="data.appointment_status === 'accepted'" class="acceptRejectMsg_{{data._id}}">Accepted</td>
+                                                                                                        <td ng-if="data.appointment_status === 'rejected'" class="acceptRejectMsg_{{data._id}}">Rejected</td>-->
+                                                </tr>
+                                                <tr ng-show="noAppointmentHistoryFound"><td colspan="6"><div class="alert alert-danger text-center" > No Record Found !</div></td></tr>   
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="adminpagination text-right col-lg-12" ng-show="appointmentListPagination">
+                                        <pagination total-items="appointmentListTotalItems" ng-click="getAppointmentHistory()" ng-model="appointmentCurrentPage" max-size="appointmentListMaxSize" class="pagination" boundary-links="true"></pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="dashboardsidebar">
+                    <div>
+                        <ul class="nav nav-tabs nav-justified" role="tablist">
+                            <li role="presentation" class="active"><a href="javascript:void(0)" aria-controls="upcoming" role="tab" data-toggle="tab">Appointments List</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="upcoming">
+                                <ul class="list-group patient_lising">
+                                    <li class="list-group-item" ng-repeat="appointmentData in viewAppointment">
+                                        <a href="javascript:void(0);" ng-click="getAppointmentDetail(appointmentData._id)">{{appointmentData.patient_info.first_name + ' ' + appointmentData.patient_info.last_name}} <span ng-bind="appointmentData.appointment_time"></span></a>
+                                    </li>
+
+                                </ul>
+                                <div class="text-center"><i ng-show="viewAppointmentLoader" class="fa fa-spinner fa-spin"></i></div>
+                                <div class="alert alert-info text-center" ng-hide="showSelectDateMsg"> Please select date.</div>
+                                <div class="alert alert-danger text-center" ng-show="noAppointmentFound"> No Record Found !</div>
+                                <div  ng-show="showViewAllBtn" class="text-center"><a href="javascript:void(0);" ng-click="getAppointmentHistory()" class="link-purple viewall" id="viewall">View All</a></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="viewdetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content patientinfo_modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><img src="images/closemodal-icon.png" alt="close" /></button>
+                    <h4 class="modal-title" id="myModalLabel">View Detail</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <h4>Book Information</h4>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Booking Date :</label>
+                            <div class="col-lg-8">
+                                <p class="form-control-static">{{getDate(viewAppointmentData.appointment_date)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Booking Time :</label>
+                            <div class="col-lg-8">
+                                <p class="form-control-static">{{viewAppointmentData.appointment_time}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Specific Doctor :</label>
+                            <div class="col-lg-8">
+                                <p class="form-control-static">{{viewAppointmentData.doctor_name}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Reason :</label>
+                            <div class="col-lg-8">
+                                <p class="form-control-static">{{viewAppointmentData.appointment_reason}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Customer Type :</label>
+                            <div class="col-lg-8">
+                                <p class="form-control-static" ng-if="viewAppointmentData.is_new_customer">Existing</p>
+                                <p class="form-control-static" ng-if="!viewAppointmentData.is_new_customer">New</p>
+                            </div>
+                        </div>
+
+
+                        <h4>Patient Information</h4>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Name :</label>
+                            <div class="col-lg-8">
+                                <p class="form-control-static" ng-if="viewAppointmentData.patient_info.first_name !== undefined && viewAppointmentData.patient_info.last_name !== undefined">{{viewAppointmentData.patient_info.first_name + ' ' + viewAppointmentData.patient_info.last_name}}</p>
+                                <p class="form-control-static" ng-if="viewAppointmentData.patient_info.first_name === undefined || viewAppointmentData.patient_info.last_name === undefined">-</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Email :</label>
+                            <div class="col-lg-8">
+                                <p class="form-control-static" ng-if="viewAppointmentData.patient_info.email !== undefined">{{viewAppointmentData.patient_info.email}}</p>
+                                <p class="form-control-static" ng-if="viewAppointmentData.patient_info.email === undefined">-</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Gender :</label>
+                            <div class="col-lg-8">
+                                <p class="form-control-static" ng-if="viewAppointmentData.patient_info.gender !== undefined">{{viewAppointmentData.patient_info.gender}}</p>
+                                <p class="form-control-static" ng-if="viewAppointmentData.patient_info.gender === undefined">-</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Phone No. :</label>
+                            <div class="col-lg-8">
+                                <p class="form-control-static" ng-if="viewAppointmentData.patient_info.phone_number !== undefined">{{viewAppointmentData.patient_info.phone_number}}</p>
+                                <p class="form-control-static" ng-if="viewAppointmentData.patient_info.phone_number === undefined">-</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Birthday :</label>
+                            <div class="col-lg-8">
+                                <p class="form-control-static" ng-if="viewAppointmentData.patient_info.dob !== undefined">{{viewAppointmentData.patient_info.dob}}</p>
+                                <p class="form-control-static" ng-if="viewAppointmentData.patient_info.dob === undefined">-</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-t-20">
+                            <label class="col-lg-4 control-label"></label>
+                            <div class="col-lg-8" >
+                                <span id="pendingTxt"></span>
+                                <span ng-show="afterDate" ng-if="viewAppointmentData.appointment_status !== 'cancelled' && viewAppointmentData.appointment_status !== 'rescheduled'">
+                                    <p class="form-control-static" ng-show="hideAcceptBtn">
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-sm" ng-click="acceptAppointment(viewAppointmentData._id, 'accepted')">Accept</a>&nbsp;
+                                        <a href="javascript:void(0);" class="btn btn-default btn-sm" ng-click="rescheduleAppointment(viewAppointmentData._id, 'rescheduled','popup')">Reschedule</a>&nbsp;
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm" ng-click="acceptAppointment(viewAppointmentData._id, 'rejected')">Reject</a>
+
+                                    </p>
+                                    <p class="form-control-static" ng-hide="hideAcceptBtn" >
+                                        <!--                                        <a href="javascript:void(0);" class="btn btn-primary btn-sm" ng-show="appointmentAccepted">Appointment Accepted.</a>&nbsp;-->
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm" ng-show="appointmentRejected">Appointment Rejected.</a>
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-sm" ng-show="appointmentAccepted" ng-click="acceptAppointment(viewAppointmentData._id, 'visited')">Visited</a>&nbsp;
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm" ng-show="appointmentAccepted" ng-click="acceptAppointment(viewAppointmentData._id, 'missed')">Missed</a>
+                                    </p>
+                                </span>
+                                <span ng-show="backDate" ng-if="viewAppointmentData.appointment_status !== 'cancelled' && viewAppointmentData.appointment_status !== 'rescheduled'">
+                                    <p class="form-control-static" ng-show="hideVisitedBtn">
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-sm"  ng-click="acceptAppointment(viewAppointmentData._id, 'visited')">Visited</a>&nbsp;
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm" ng-click="acceptAppointment(viewAppointmentData._id, 'missed')">Missed</a>
+                                    </p>
+                                    <p class="form-control-static" ng-hide="hideVisitedBtn">
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-sm" ng-show="appointmentVisited">Appointment Visited.</a>&nbsp;
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm" ng-show="appointmentMissed" >Appointment Missed.</a>
+                                    </p>
+                                </span>
+                                <span ng-if="viewAppointmentData.appointment_status === 'cancelled'">
+                                    <p class="form-control-static"> Cancelled</p>
+                                </span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>     
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="updateAppointment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content appointinformation_modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><img src="images/closemodal-icon.png" alt="close" /></button>
+                    <h4 class="modal-title" id="myModalLabel">Appointment Information</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">Appointment Date :</label>
+                            <div class="col-lg-8">
+                                <div class="date-picker">
+                                    <div class="input-group m-b-0">
+                                        <input type="text" placeholder="Date" readonly="true" class="form-control" datepicker-popup="{{format}}" ng-change="changeDate(date)" ng-model="date" is-open="toOpened" min-date="toMinDate" max-date="toMaxDate"   datepicker-options="dateOptions" date-disabled="disabled(date, mode)" id="toDate" ng-required="true" close-text="Close" show-button-bar="false"/>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary" ng-click="opened($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">{{appointment_day}} :</label>                           
+                       
+                        <div class="col-lg-8">
+                            <div class="">
+                            <label class="radio-inline" ng-repeat="schedule in timeArray">
+                                <input type="radio" ng-model="scheduleTime" ng-change="selectTime('{{schedule}}')" ng-value="'{{schedule}}'" name="schedule">{{schedule}}  
+                            </label>
+                            </div>
+                        </div>
+ </div>
+                        <div class="form-group m-t-20">
+                            <div class="col-lg-8 col-lg-offset-4">
+                        <a href="javascript:void(0)" ng-click="appointmentReschedule()" class="btn btn-danger btn-sm" ng-disabled="appointmentBtnDisable">Update<i class="fa fa-spinner fa-1 fa-spin" ng-show="appointmentBtnLoader"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>     
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(".viewall").click(function(e) {
+            e.preventDefault();
+            $(".main-container").addClass("in");
+        });
+
+        $("#hide_list").click(function(e) {
+            e.preventDefault();
+            $(".main-container").removeClass("in");
+        });
+
+
+//      $("#viewall").click(function(){
+//            $('#demo').animate({
+//                width: "500"
+//            });
+//        });
+    </script>
+

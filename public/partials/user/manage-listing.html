@@ -1,0 +1,66 @@
+<div class="commondashboard_side">
+      <div ui-view="@left"></div>
+     <main class="side-collapse-container">
+       <div class="main-container">
+         <div ui-view="@subheader"></div>     
+         <div class="mobile_dashboard_heading"><h3>Business Page</h3></div>
+           <div class="content">
+           <div class="business_page">
+         <div class="row">
+             <div class="col-md-12">
+            <div class="searchuser">
+                 <div class="custom-search-input">
+                <form>
+                     <div class="input-group">
+                         <input type="text" class="search-query form-control" ng-model="searchValue" placeholder="Search">
+                    <button class="btn btn-danger" type="button" ng-click="getListing()"> <span class=" glyphicon glyphicon-search"></span> </button>
+                  </div>
+                   </form>
+              </div>
+               </div>
+            <div class="panel panel-default">
+                 <div class="panel-body">
+                <div class="row">
+                     <div class="table-responsive admintable">
+                    <table class="table">
+                         <thead>
+                        <tr>
+                            
+                             <th style="width:150px">Business Name</th>
+                             <th style="width:200px">Business Category</th>
+                             <th style="width:200px">Created Date</th>
+                             <th style="width:60px">Action</th>
+                              
+                           </tr>
+                      </thead>
+                         <tbody>
+                          <tr ng-show="listingLoader"><td colspan="4"><div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>     
+                        <tr ng-repeat="(index,data) in listingData">                                                      
+                             <td>{{data.business_name}}</td>
+                             <td>{{getBusinessCategory(data.business_category)}}</td>
+                             <td>{{getDate(data.updated_at)}}</td>
+                             <td><ul class="list-inline editviewdel">
+                                 <li><a ui-sref="user.businessinfo({id:'{{data._id}}'})" tooltip="View Info"><i class="fa fa-eye"></i></a></li>
+                                 <li><a ui-sref="user.calendar({id:'{{data._id}}'})" tooltip="View Calendar" data-placement="left"><i class="fa fa-calendar"></i></a></li>
+                                 </ul>
+                             </td>
+                              
+                           </tr>
+                        <tr ng-show="noListingFound"><td colspan="4"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr> 
+                      </tbody>
+                       </table>
+                  </div>
+                     <div class="adminpagination text-right col-lg-12"  ng-show="listingPagination">
+                     <pagination total-items="listingTotalItems" ng-click="getListing()" ng-model="listingCurrentPage" max-size="listingMaxSize" class="pagination" boundary-links="true"></pagination>
+                  </div>
+                   </div>
+              </div>
+               </div>
+          </div>
+           </div>
+           </div>
+           </div>
+       </div>
+     </main>
+   </div>
+    

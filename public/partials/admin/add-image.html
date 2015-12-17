@@ -1,0 +1,46 @@
+<div class="commondashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>
+            <div class="mobile_dashboard_heading">
+                <h3>Add Listing</h3>
+            </div>            
+            <div class="content">
+<!--                <div class="overlay text-center">
+                <i class="fa fa-spinner fa-spin fa-2x"></i>
+                </div>-->
+                <div class="managelisting_page">
+                    <div class="back_edit clearfix"> <a ui-sref="admin.cmspage" class="pull-right btn btn-primary">Back</a> </div>
+                    <div class="well well-sm">
+                        <div class="myform">
+                            <form name="form">                                             
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Title:<span class="color-red">*</span></label>
+                                            <input type="text" placeholder="Title" name="title" ng-model="imageTitle" class="form-control">
+                                            <p class="text-danger" ng-show="titleError">Title is required.</p>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Image:<span class="color-red">*</span></label>
+                                            <input type="file" class="" name="image" id="cmsImage" accept="image/x-png, image/jpeg" file-model="cmsImage">
+                                            <p class="text-danger" ng-bind="imageError"></p>
+                                            <img class="img-responsive" style="height: 100px;width: 100px;"  ng-src="{{cms_image_path}}">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <button class="btn btn-danger" ng-click="saveImage()" ng-disabled="disableImageBtn" type="submit"> Submit<i ng-show="imageLoader" class="fa fa-spinner fa-spin"></i></button>
+                            </form>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

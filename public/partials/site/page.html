@@ -1,0 +1,21 @@
+<div class="breadcrum">
+   <div class="container">
+    <ol class="breadcrumb">
+      <li><a ui-sref="root.home">Home</a></li>
+      <li class="active" ng-show="privacyPolicy">Privacy Policy</li>
+      <li class="active" ng-show="termAndCondition">Term & condition</li>
+    </ol>
+      </div>
+   </div>
+<main class="main-content innerpages">
+  <div class="container">
+<div class="static_cnt clearfix">
+<div class="text-center"><i class="fa fa-spinner fa-3 fa-spin" ng-hide="showPageLoader"></i></div>
+<div ng-bind-html="pageDetail.page_content | to_trusted"></div>
+</div>
+  </div></main>
+
+<script>
+   $("html, body").animate({ scrollTop: 0 }, "slow");
+   $(".headerChk").removeClass('navbar-fixed-top');
+</script>

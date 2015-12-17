@@ -1,0 +1,68 @@
+<div class="commondashboard_side">
+     <div ui-view="@left"></div>
+     <main class="side-collapse-container">
+    <div class="main-container">
+        <div ui-view="@subheader"></div>
+<!--         <div class="mobile_dashboard_heading">
+        <h3>List of Doctor</h3>
+      </div>-->
+         <div class="content">
+          <div class="mobile_dashboard_heading01">
+                        <h3 class="visible-xs business_name" ng-if="myBusinessInfo !== undefined && myBusinessInfo !== ''">{{myBusinessInfo.business_name}}</h3>
+                        <h3>List of Doctor</h3>
+                    </div>    
+        <div class="businessinfo_page">
+             <div id="doctorlisting">
+            <div class="searchuser"> <a ng-hide="hideDoctorAddBtn" class="btn btn-primary pull-left" ui-sref="user.adddoctor" >Add Doctor</a>
+                 <div class="custom-search-input">
+                <form>
+                     <div class="input-group">
+                    <input type="text" class="search-query form-control" placeholder="Search" ng-model="searchVal">
+                    <button class="btn btn-danger" type="submit" ng-click="getDoctorList()"> <span class=" glyphicon glyphicon-search"></span> </button>
+                  </div>
+                   </form>
+              </div>
+               </div>
+            <div class="panel panel-default">
+                 <div class="panel-body">
+                <div class="row">
+                     <div class="table-responsive admintable">
+                    <table class="table">
+                         <thead>
+                        <tr>
+                             <th style="width:250px">Image</th>
+                             <th style="width:250px">Doctor Name</th>
+                             <th style="width:400px">Speciality</th>
+                             <th style="width:400px">Description</th>
+                             <th style="width:60px">Action</th>
+                           </tr>
+                      </thead>
+                         <tbody>
+                        <tr ng-show="doctorListLoader"><td colspan="5"><div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>     
+                         <tr ng-show="noDoctorListFound"><td colspan="5"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr> 
+                         <tr ng-repeat="(index,data) in doctorData" id="doctor_{{index}}">
+                             <td><div style="background-image:url({{'uploads/profile/'+data.image}});" class="doctor-image"></div></td>
+                             <td>{{data.name}}</td>
+                             <td>{{getBusinessCategory(data.speciality)}}</td>
+                             <td ng-if="data.description!=='' && data.description!==undefined">{{data.description}}</td>
+                             <td ng-if="data.description==='' || data.description===undefined">-</td>
+                             <td><ul class="list-inline editviewdel">
+                                 <li><a ui-sref="user.updatedoctor({id:'{{data._id}}'})" id="editdoctor_btn"><i class="fa fa-edit"></i></a></li>
+                                 <li><a href="javascript:void(0);" ng-click="deleteDoctor(data._id,index)"><i class="fa fa-trash"></i></a></li>
+                               </ul></td>
+                           </tr>
+                         
+                      </tbody>
+                       </table>
+                  </div>
+                     
+                   </div>
+              </div>
+               </div>
+          </div>
+             
+           </div>
+      </div>
+       </div>
+  </main>
+   </div>

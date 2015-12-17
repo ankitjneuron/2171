@@ -1,0 +1,45 @@
+<div class="commondashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>
+            <div class="mobile_dashboard_heading" id="cmsImage">
+                <h3>Add Listing</h3>
+            </div>            
+            <div class="content">
+                <div class="overlay text-center " id="pageLoaderDiv" ng-hide="hidePageLoader">
+                  <i class="fa fa-spinner fa-spin fa-2x"></i>
+                </div>
+                <div class="managelisting_page">
+                    <div class="back_edit clearfix"> <a ui-sref="admin.cmspage" class="pull-right btn btn-primary">Back</a> </div>
+                    <div class="well well-sm">
+                        <div class="myform">
+                            <form name="form">                                             
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Title:<span class="color-red">*</span></label>
+                                            <input type="text" placeholder="Title" name="title" ng-model="pageTitle" class="form-control" disabled="">
+                                            <p class="text-danger" ng-show="pageTitleError">Title is required.</p>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Content:<span class="color-red">*</span></label>
+                                            <textarea ckeditor="editorOptions" type="text" class="form-control update-validate"  placeholder="Content" id="cmsPageContent" name="cmsPageContent"  ng-model = "cmsPageContent" ></textarea>
+                                            <p class="text-danger" ng-show="pageContentError">Content is required.</p>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <button class="btn btn-danger" ng-click="updatePage()" ng-disabled="disablePageUpdateBtn" type="submit"> Update<i ng-show="pageLoader" class="fa fa-spinner fa-spin"></i></button>
+                            </form>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

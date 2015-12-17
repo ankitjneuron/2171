@@ -1,0 +1,87 @@
+<div class="commondashboard_side">
+ <div ui-view="@left"></div>
+   <main class="side-collapse-container">
+       <div class="main-container">
+        <div ui-view="@subheader"></div>       
+         <div class="mobile_dashboard_heading"><h3>Business Page</h3></div>
+           <div class="content">
+           <div class="business_page">
+         <div class="row">
+             <div class="col-md-12">
+            <div class="searchuser">
+                 <div class="custom-search-input">
+                <form>
+                     <div class="input-group">
+                         <input type="text" class="search-query form-control" ng-model="searchValue" placeholder="Search">
+                    <button class="btn btn-danger" type="button" ng-click="getBusinessPageListing()"> <span class=" glyphicon glyphicon-search"></span> </button>
+                  </div>
+                   </form>
+              </div>
+               </div>
+            <div class="panel panel-default">
+                 <div class="panel-body">
+                <div class="row">
+                     <div class="table-responsive admintable">
+                    <table class="table">
+                         <thead>
+                        <tr>
+                             <th style="width:50px">Date</th>
+                             <th style="width:130px">Patients Name</th>
+                             <th style="width:130px">Business Name</th>
+                             <th style="width:200px">Business Category</th>
+                             <th style="width:100px">Action</th>
+                             <th style="width:100px">Status</th>
+                           </tr>
+                      </thead>
+                         <tbody>
+                         <tr ng-show="businessListLoader"><td colspan="6"><div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>     
+                        <tr ng-repeat="(index,data) in businessList">
+                              <td>{{getDate(data.updated_at)}}</td>
+                              <td>{{data.who_added.first_name+' '+data.who_added.last_name}}</td> 
+                             <td>{{data.business_name}}</td>
+                             <td>{{getBusinessCategory(data.business_category)}}</td>
+                             <td>
+                                 <ul class="list-inline editviewdel">
+                                     <li><a href="javascript:void(0);" ui-sref="admin.businessview({id:'{{data._id}}'})"><i class="fa fa-eye"></i></a><li>
+                                 </ul>
+                             </td>
+                              <td>
+                              <ul class="list-inline editviewdel">
+                                 <li>
+                                 <a href="javascript:void(0);" data-toggle="tooltip" ng-click="acceptBusinessList(data._id,'accept',index)" data-placement="left" title="Accept">
+                                 <i class="fa fa-check"></i></a>
+                                 </li>                                
+                                 <li>
+                                 <a href="javascript:void(0);" data-toggle="tooltip" ng-click="acceptBusinessList(data._id,'reject',index)" data-placement="right" title="Reject">
+                                 <i class="fa fa-times"></i></a>
+                                 </li>
+                               </ul>
+                             </td>
+                           </tr>
+                          <tr ng-show="noBusinessPagesFound"><td colspan="6"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr>
+                      </tbody>
+                       </table>
+                  </div>
+                     <div class="adminpagination text-right col-lg-12"  ng-show="businessListPagination">
+<!--                    <ul class="pagination">
+                         <li> <a aria-label="Previous" href="#"> <span aria-hidden="true">Â«</span> </a> </li>
+                         <li class="active"><a href="#">1</a></li>
+                         <li><a href="#">2</a></li>
+                         <li><a href="#">3</a></li>
+                         <li><a href="#">4</a></li>
+                         <li><a href="#">5</a></li>
+                         <li> <a aria-label="Next" href="#"> <span aria-hidden="true">Â»</span> </a> </li>
+                       </ul>-->
+                     <pagination total-items="businessListTotalItems" ng-click="getBusinessPageListing()" ng-model="businessPageCurrentPage" max-size="businessPageMaxSize" class="pagination" boundary-links="true"></pagination>
+                  </div>
+                   </div>
+              </div>
+               </div>
+          </div>
+           </div>
+           </div>
+           </div>
+       </div>
+     </main>
+   </div>
+ 

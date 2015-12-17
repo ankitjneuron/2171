@@ -1,0 +1,68 @@
+ 
+    <div class="commondashboard_side">
+         <div ui-view="@left"></div>
+     
+          <main class="side-collapse-container">
+       <div class="main-container">
+       <div ui-view="@subheader"></div>  
+         <div class="mobile_dashboard_heading"><h3>Dashboard</h3></div>
+           <div class="content">
+             <div class="dashboardboxes">
+               <div class="row">
+                 <div class="col-md-4 col-sm-4">
+                   <div class="panel no-bd panel-stat">
+                        <div class="panel-body bg-darkblue">
+                            <div class="icon"><i class="fa fa-book"></i>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="stat-num">{{businessOwnerCount}}</div>
+                                    <h3>Business Owner</h3>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="col-md-4 col-sm-4">
+                   <div class="panel no-bd panel-stat">
+                        <div class="panel-body bg-purple">
+                            <div class="icon"><i class="fa fa-file-text"></i>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="stat-num">{{patientCount}}</div>
+                                    <h3>Patients</h3>                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="col-md-4 col-sm-4">
+                   <div class="panel no-bd panel-stat">
+                        <div class="panel-body bg-darkblue">
+                            <div class="icon"><i class="fa fa-question-circle"></i>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="stat-num">{{businessListCount}}</div>
+                                    <h3>Business Listings</h3>                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 
+                 
+                 
+                 
+               </div>
+             </div>
+           </div>
+        
+       </div>
+     </main>
+    </div>
+
+ 
+
+ 

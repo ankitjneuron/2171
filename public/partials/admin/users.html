@@ -1,0 +1,113 @@
+ 
+<div class="commondashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>    
+            <div class="mobile_dashboard_heading">
+                <h3>Manage Users</h3>
+            </div>
+            <div class="content">
+                <div class="managelisting_page">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="searchuser"> 
+                                <div class="custom-search-input">
+                                    <form>
+                                        <div class="input-group">
+                                            <input type="text" class="search-query form-control" placeholder="Search" ng-model="searchUser">
+                                            <button class="btn btn-danger" ng-click="searchUsers()" type="button"> <span class=" glyphicon glyphicon-search"></span> </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="business_user" aria-controls="business_user" ng-click="tabChange('business_user')" role="tab" data-toggle="tab">Business</a></li>
+                                <li role="presentation"><a href="patient" aria-controls="patient" ng-click="tabChange('patient');
+                                    getPatientUserListing();" role="tab" data-toggle="tab">Patient</a></li>
+                            </ul>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="business_user">
+                                            <div class="row">
+                                                <div class="table-responsive admintable">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:130px">Registration Date</th>
+                                                                <th style="width:130px">Name</th>
+                                                                <th style="width:250px">Email Address</th>
+                                                                <th style="width:200px">Phone Number</th> 
+                                                                 <th style="width:200px">Last Login Date</th>
+                                                                <th style="width:100px">Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tbody>
+                                                            <tr ng-show="businessUserListLoader"><td colspan="6">
+                                                                    <div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>
+                                                            <tr ng-repeat="(index,userList) in businessUserData">
+                                                                <td>{{getDate(userList.updated_at)}}</td>
+                                                                <td>{{userList.first_name + ' ' + userList.last_name}}</td>
+                                                                <td>{{userList.email}}</td>
+                                                                <td>{{userList.phone_number}}</td>
+                                                                <td ng-if="userList.last_login!==undefined && userList.last_login!==''">{{getDate(userList.last_login)}}</td>
+                                                                <td ng-if="userList.last_login===undefined || userList.last_login===''">-</td>
+                                                                <td> <switch id="enabled" name="enabled" ng-model="enabled" on="On" ng-change="changeUserStatus(enabled, userList._id)" ng-init="(userList.status==='active') ? enabled=true : enabled = false" off="Off" class="green"></switch></td>
+                                                            </tr>
+                                                            <tr ng-show="noUserListFound"><td colspan="6"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr>
+                                                        </tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="adminpagination text-right col-lg-12" ng-show="businessListPagination">
+                                                    <pagination total-items="businessListTotalItems" ng-click="getBusinessUserListing()" ng-model="userListCurrentPage" max-size="businessListMaxSize" class="pagination" boundary-links="true"></pagination>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="patient">
+                                            <div class="row">
+                                                <div class="table-responsive admintable">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:130px">Registration Date</th>
+                                                                <th style="width:130px">Name</th>
+                                                                <th style="width:250px">Email Address</th>
+                                                                <th style="width:200px">Phone Number</th>
+                                                                <th style="width:200px">Last Login Date</th>
+                                                                <th style="width:100px">Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-show="patientUserListLoader"><td colspan="6">
+                                                                    <div class="text-center"><i class="fa fa-spinner fa-2 fa-spin" ></i> </div></td></tr>
+                                                            <tr ng-repeat="(index,userList) in patientUserData">
+                                                                <td>{{getDate(userList.updated_at)}}</td>
+                                                                <td>{{userList.first_name + ' ' + userList.last_name}}</td>
+                                                                <td>{{userList.email}}</td>
+                                                                <td>{{userList.phone_number}}</td>
+                                                                 <td ng-if="userList.last_login!==undefined && userList.last_login!==''">{{getDate(userList.last_login)}}</td>
+                                                                <td ng-if="userList.last_login===undefined || userList.last_login===''">-</td>
+                                                                <td><switch id="enabled_patient" name="enabled_patient" ng-model="enabled_patient" on="On" ng-change="changeUserStatus(enabled_patient, userList._id)" ng-init="(userList.status==='active') ? enabled_patient=true : enabled_patient = false" off="Off" class="green"></switch></td>
+                                                            </tr>
+                                                            <tr ng-show="noPatientListFound"><td colspan="6"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="adminpagination text-right col-lg-12" ng-show="patientListPagination">
+                                                    <pagination total-items="patientListTotalItems" ng-click="getPatientUserListing()" ng-model="patientListCurrentPage" max-size="patientListMaxSize" class="pagination" boundary-links="true"></pagination>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

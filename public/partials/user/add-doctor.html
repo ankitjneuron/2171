@@ -1,0 +1,69 @@
+<div class="commondashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>
+            <!--         <div class="mobile_dashboard_heading">
+                    <h3>List of Doctor</h3>
+                  </div>-->
+            <div class="content">
+                <div class="mobile_dashboard_heading01">
+                    <h3 class="visible-xs business_name" ng-if="myBusinessInfo !== undefined && myBusinessInfo !== ''">{{myBusinessInfo.business_name}}</h3>
+                    <h3>List of Doctor</h3>
+                </div>
+                <div class="businessinfo_page">
+                <div class="overlay text-center " id="doctorProfileLoaderDiv" ng-show="hidePageLoader">
+                    <i class="fa fa-spinner fa-spin fa-2x"></i>
+                </div>
+                <div id="adddoctor_form" class="well well-sm clearfix adddoctor_form">
+                     <div class="myform">
+                        <form name="form" novalidate>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Name:<span class="color-red">*</span></label>
+                                        <input type="text" placeholder="Name" ng-model="doctorForm.name" name="name" required="" class="form-control">
+                                        <div ng-show="form.$submitted || form.name.$touched">
+                                            <span class="text-danger" ng-show="form.name.$error.required">Doctor name is required.</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Image:</label>
+                                        <div class="logobox"> 
+                                                <img class="img-responsive" ng-src="{{doctorProfileImageSrc}}">
+                                                <input type="file" class="inputfile_new"  id="doctorProfileImgId" accept="image/x-png, image/jpeg" file-model="doctorImage"  />
+                                            <button type="button" class="btn btn-danger btn-sm btn-block" ng-click="fileClickEvent()">Browse</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Speciality:<span class="color-red">*</span></label>
+                                        <div ng-dropdown-multiselect="" events="specialityEvents"  options="specialityData"  translation-texts="specialityText" extra-settings="multiSelectSettings" selected-model="speciality"></div>
+                                        <input type="hidden" class="form-control" name="category" required="" ng-model="doctorForm.specialityHddn">
+                                        <div ng-show="form.$submitted || form.category.$touched">
+                                            <span class="text-danger" ng-show="form.category.$error.required">Speciality is required.</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description:<span class="color-red">*</span></label>
+                                        <textarea class="form-control" rows="4" ng-model="doctorForm.description" name="description" required="" placeholder="Description"></textarea>
+                                        <div ng-show="form.$submitted || form.description.$touched">
+                                            <span class="text-danger" ng-show="form.description.$error.required">Description is required.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button class="btn btn-danger pull-left" ng-click="saveDoctor()" type="submit"> Submit</button>
+                            &nbsp; <a ui-sref="user.doctorlist" class="btn btn-primary" id="back1">Back</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+</div>

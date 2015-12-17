@@ -1,0 +1,143 @@
+<div class="commondashboard_side userdashboard_side">
+    <div ui-view="@left"></div>
+    <main class="side-collapse-container">
+        <div class="main-container">
+            <div ui-view="@subheader"></div>
+            <div class="content">
+                <div class="mobile_dashboard_heading01">
+                    <h3 class="visible-xs business_name" ng-if="business_name!==undefined && business_name!==''">{{business_name}}</h3>
+                    <h3>Dashboard</h3>
+                </div>
+                <div class="userdashboard_page">
+                    <div class="businessinfo_page"> 
+                        <div id="claimProfile" ng-show="claimProfile">
+                            <div class="well well-sm clearfix">
+                                <div class="viewbusiness_info">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+
+                                            <div class="alert alert-warning text-center">Please claim your profile</div>    
+                                            <div class="claimdiv"> 
+
+                                                <img src="images/downarrow.jpg" class="center-block img-responsive">
+
+                                                <a class="btn btn-primary btn-sm" ui-sref="root.listing">Claim Profile</a>
+                                            </div>        
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        <div id="pendingClaim" ng-show="pendingClaimProfile">
+                            <div class="well well-sm clearfix">
+                                <div class="viewbusiness_info">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h3 class="color-purple text-center m-t-10 m-b-25">{{business_name}}</h3>
+                                            <div class="pending"> Pending Request </div>
+                                            <div class="alert alert-warning text-center">Admin verification is still remaining. Please <a class="alert-link" ui-sref="root.listing">click here</a> if you want to cancel the request.</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="confirmClaimProfile">    
+                            <div class="well well-sm clearfix">
+                                <div class="viewbusiness_info acceptprofile">
+                                    <div class="row">
+                                        <div class="col-lg-9 col-md-8 col-sm-7 left">
+                                            <h3 class="color-purple text-center m-t-10 m-b-25">{{business_name}}</h3>
+                                            <div class="alert alert-warning text-center" ng-show="showCompleteProfile">Your business profile has missing information. Please complete your profile <a class="alert-link" ui-sref="user.businessinfo">here</a></div>
+
+                                        </div>
+
+                                        <div class="col-lg-3">         
+                                            <div class="complete_profile">
+                                                <!--            <img src="images/profilebar.jpg"  />-->
+                                                <div class="progress-wrapper">
+                                                    <div class="progress ng-cloak" ng-style="getStyle()">{{ percentage}}%</div>
+                                                    <div
+                                                        round-progress
+                                                        max="max"
+                                                        current="current"
+                                                        color="{{ getColor()}}"
+                                                        bgcolor="{{ bgColor}}"
+                                                        radius="{{ radius}}"
+                                                        semi="isSemi"
+                                                        rounded="rounded"
+                                                        stroke="{{ stroke}}"
+                                                        clockwise="clockwise"
+                                                        responsive="responsive"
+                                                        duration="{{ duration}}"
+                                                        animation="{{ currentAnimation}}"
+                                                        offset="{{ offset}}">
+
+                                                        <svg>
+                                                        <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
+                                                        <stop offset="5%"  stop-color="green"/>
+                                                        <stop offset="95%" stop-color="gold"/>
+                                                        </linearGradient>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Upcoming Appointments</div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="table-responsive admintable">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Booking Time</th>
+                                                        <th>Specific Doctor</th>
+                                                        <th>Reason</th>
+                                                        <th>Gender</th>
+                                                        <th style="width:200px">Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                     <tr ng-if="!businessAppointment.length"><td colspan="6"> <div class="alert alert-danger text-center" > No Record Found !</div></td></tr> 
+                                                    <tr ng-repeat="appointmentData in businessAppointment">
+                                                        <td ng-if="appointmentData.patient_info.first_name!==undefined && appointmentData.patient_info.first_name!==''">{{appointmentData.patient_info.first_name+' '+appointmentData.patient_info.last_name}}</td>
+                                                        <td ng-if="appointmentData.patient_info.first_name===undefined || appointmentData.patient_info.first_name===''">-</td>
+                                                        <td>{{appointmentData.appointment_time}}</td>
+                                                        <td>{{getDoctorName(appointmentData.doctor_id)}}</td>
+                                                        <td>{{appointmentData.appointment_reason}}</td>
+                                                        <td ng-if="appointmentData.patient_info.gender!==undefined && appointmentData.patient_info.gender!==''">{{appointmentData.patient_info.gender}}</td>
+                                                        <td ng-if="appointmentData.patient_info.gender===undefined || appointmentData.patient_info.gender===''">-</td>
+                                                        <td ng-if="appointmentData.appointment_status==='pending'">
+                                                            <a class="btn btn-primary btn-sm" href="javascript:void(0)" ng-click="acceptAppointment(appointmentData._id,'accepted')">Accept</a>&nbsp;
+                                                            <a class="btn btn-danger btn-sm" href="javascript:void(0)" ng-click="acceptAppointment(appointmentData._id,'rejected')">Reject</a>
+                                                        </td>  
+                                                        <td ng-if="appointmentData.appointment_status==='accepted'">Accepted</td>
+                                                        <td ng-if="appointmentData.appointment_status==='rejected'">Rejected</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+ 
